@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ride Booking Steps - Nigeria Autocomplete</title>
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #4f8cff 0%, #38e8ff 100%);
+            color: #222;
+            display: flex;
+            flex-direction: column;
+        }
+        .navbar {
+            width: 100vw;
+            background: linear-gradient(120deg, #232946 0%, #3a506b 100%);
+            display: flex;
+            align-items: center;
+            padding: 0.7rem 2vw;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            min-height: 60px;
+            box-sizing: border-box; /* Ensures padding is included in width */
+            overflow-x: hidden;      /* Prevents content from overflowing */
+        }
+        .navbar-logo img {
+            height: 38px;
+            width: auto;
+            border-radius: 0.4rem;
+            box-shadow: 0 2px 8px rgba(56,232,255,0.10);
+            display: block;
+            max-width: 100%;
+            max-height: 48px;
+        }
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            gap: 1.2rem;
+            flex-wrap: nowrap;
+            min-width: 0; /* Allows shrinking */
+        }
+        .navbar-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: nowrap;
+            min-width: 0;
+        }
+        .navbar-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: 500;
+            transition: color 0.2s, transform 0.2s;
+            position: relative;
+        }
+        .navbar-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            right: 0;
+            background: #fff;
+            transition: width 0.3s ease;
+        }
+        .navbar-links a:hover::after {
+            width: 100%;
+            left: 0;
+            background: #38e8ff;
+        }
+        .navbar-links a.active::after {
+            width: 100%;
+            left: 0;
+            background: #38e8ff;
+        }
+
+        .navbar-auth {
+            display: flex;
+            gap: 0.7rem;
+            flex-wrap: nowrap;
+            min-width: 0;
+        }
+        .btn.login, .btn.signup {
+            white-space: nowrap;
+            padding: 0.5rem 1.1rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(56,232,255,0.08);
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            outline: none;
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .btn.login {
+            background: #fff;
+            color: #2563eb;
+        }
+        .btn.signup {
+            background: #38e8ff;
+            color: #fff;
+        }
+        .btn.login:hover, .btn.signup:hover {
+            background: #2563eb;
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(56,232,255,0.13);
+        }
+        /* Hamburger styles */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            margin-left: 1rem;
+            z-index: 201;
+        }
+        .hamburger span {
+            height: 4px;
+            width: 28px;
+            background: #fff;
+            margin: 4px 0;
+            border-radius: 2px;
+            transition: 0.3s;
+            display: block;
+        }
+        /* Dropdown menu for mobile */
+        .navbar-dropdown {
+            display: none;
+            flex-direction: column;
+            position: fixed;
+            top: 56px;
+            right: 0;
+            left: 0;
+            background: linear-gradient(120deg, #232946 0%, #3a506b 100%);
+            box-shadow: 0 8px 32px rgba(35,41,70,0.18);
+            border-radius: 0 0 1rem 1rem;
+            min-width: 220px;
+            z-index: 200;
+            animation: slideDown 0.3s;
+            overflow: hidden;
+            border: none;
+            padding: 0;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .navbar-dropdown.show {
+            display: flex !important;
+        }
+        .navbar-dropdown a {
+            color: #fff;
+            border-bottom: 1px solid #3a506b;
+            background: transparent;
+            font-size: 1.15rem;
+            padding: 1.2rem 2rem;
+            text-align: left;
+        }
+        .navbar-dropdown a:last-child {
+            border-bottom: none;
+        }
+        .navbar-dropdown a:hover {
+            background: #3a506b;
+            color: #ffd166;
+        }
+        @media (max-width: 1200px) {
+            .navbar-links {
+                gap: 1.2rem;
+            }
+            .btn.login, .btn.signup {
+                padding: 0.5rem 0.8rem;
+                font-size: 1rem;
+                max-width: 90px;
+            }
+        }
+        @media (max-width: 900px) {
+            .navbar {
+                padding: 0.5rem 2vw;
+                min-height: 56px;
+            }
+            .navbar-logo img {
+                height: 32px;
+                max-height: 36px;
+            }
+            .navbar-links {
+                display: none;
+            }
+            .navbar-auth {
+                gap: 0.5rem;
+            }
+            .hamburger {
+                display: flex;
+            }
+        }
+        .main-content {
+            margin-top: 90px; /* Space for fixed navbar */
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%; /* Use 100% instead of 100vw to respect parent's padding */
+            padding: 20px 0; /* Add some vertical padding */
+            box-sizing: border-box; /* Include padding in width */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        .step-container {
+            position: relative;
+            max-width: 400px;
+            margin: 2rem auto; /* Adjusted margin for better positioning */
+            background: #fff;
+            padding: 2rem 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            text-align: center;
+            animation: fadeIn 0.7s;
+            width: calc(100% - 40px); /* Adjust for padding on smaller screens */
+            box-sizing: border-box;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(40px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #2563eb;
+            letter-spacing: 0.5px;
+        }
+        .step-desc {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: #444;
+        }
+        .step-btn {
+            padding: 0.7rem 2rem;
+            background: linear-gradient(90deg, #4f8cff 60%, #38e8ff 100%);
+            color: #fff;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(79,140,255,0.08);
+            margin-top: 1rem;
+        }
+        .step-btn:hover {
+            background: linear-gradient(90deg, #2563eb 60%, #38e8ff 100%);
+            box-shadow: 0 4px 16px rgba(56,232,255,0.13);
+        }
+        .step-input, .step-select {
+            width: 100%;
+            padding: 0.7rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #cfd8dc;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background: #f8fafc;
+            transition: border 0.2s, box-shadow 0.2s;
+            box-sizing: border-box;
+        }
+        .step-input:focus, .step-select:focus {
+            border-color: #38e8ff;
+            outline: none;
+            box-shadow: 0 2px 8px rgba(56,232,255,0.13);
+        }
+        .step-summary {
+            text-align: left;
+            margin-bottom: 1.5rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-size: 1rem;
+            border-left: 4px solid #38e8ff;
+        }
+        .success-message {
+            color: #00796b;
+            font-weight: bold;
+            margin-top: 1.5rem;
+            text-align: center;
+            background: #e0f7fa;
+            border-radius: 0.7rem;
+            padding: 1.5rem 1rem;
+            box-shadow: 0 2px 8px rgba(56,232,255,0.10);
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeIn 0.7s;
+            width: calc(100% - 40px); /* Adjust for padding */
+            box-sizing: border-box;
+        }
+        .bottom-section {
+            width: 100vw;
+            background: #fff;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
+            padding: 2.5rem 0 1rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            border-radius: 1rem 1rem 0 0;
+            margin-top: 2rem;
+        }
+        .bottom-card {
+            background: #f8fafc;
+            border-radius: 0.7rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            padding: 1.2rem 1.5rem;
+            min-width: 220px;
+            max-width: 340px;
+            margin-bottom: 1rem;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .bottom-card:hover {
+            box-shadow: 0 6px 24px rgba(56,232,255,0.13);
+            transform: translateY(-4px) scale(1.03);
+        }
+        .bottom-card h3 {
+            margin-top: 0;
+            color: #2563eb;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+        }
+        .bottom-card ul {
+            padding-left: 1.2rem;
+            margin: 0.5rem 0 0 0;
+            color: #333;
+        }
+        .driver-info span {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-size: 1rem;
+        }
+        .reference {
+            text-align: center;
+            margin: 1.5rem 0 0 0;
+            font-size: 0.95rem;
+            color: #2563eb;
+        }
+        .autocomplete-suggestions {
+            border: 1px solid #cfd8dc;
+            border-top: none;
+            max-height: 180px;
+            overflow-y: auto;
+            background: #fff;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            z-index: 10;
+            border-radius: 0 0 0.5rem 0.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            display: none;
+        }
+        .autocomplete-suggestion {
+            padding: 0.7rem 1rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+        .autocomplete-suggestion:hover, .autocomplete-suggestion.active {
+            background: #e0f7fa;
+        }
+        /* Modal styles */
+        #receiptModal {
+            display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;
+            background:rgba(0,0,0,0.35);z-index:9999;align-items:center;justify-content:center;
+        }
+        #receiptModal .modal-content {
+            background:#fff;padding:2rem 2.5rem;border-radius:1rem;max-width:350px;width:90%;margin:auto;position:relative;
+            text-align:left;
+            box-shadow: 0 4px 24px rgba(56,232,255,0.13);
+            animation: fadeIn 0.5s;
+        }
+        #receiptModal h2 {
+            color:#2563eb;margin-top:0;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+        #receiptModal button {
+            padding:0.5rem 1.5rem;border:none;background:#2563eb;color:#fff;border-radius:0.4rem;font-size:1rem;cursor:pointer;
+            display: block;
+            margin: 0 auto;
+            margin-top: 1rem;
+            transition: background 0.2s;
+        }
+        #receiptModal button:hover {
+            background: #38e8ff;
+        }
+        /* ===== Dashboard Styles ===== */
+        .dashboard-container {
+            background: linear-gradient(135deg, #e0e7ff 0%, #f5f7fa 100%);
+            padding: 48px 48px 36px 48px;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(60, 72, 88, 0.12);
+            margin-bottom: 40px;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            overflow: hidden;
+            width: calc(100% - 40px); /* Adjust for padding on small screens */
+            box-sizing: border-box; /* Ensures padding is included in width */
+        }
+        .dashboard-header {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 32px;
+            color: #1e293b;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 8px rgba(30,41,59,0.07);
+        }
+        .dashboard-stats {
+            display: flex;
+            gap: 32px;
+            justify-content: space-between;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+        .dashboard-stat {
+            background: rgba(255,255,255,0.95);
+            padding: 36px 28px;
+            border-radius: 14px;
+            flex: 1 1 260px; /* Allows cards to shrink and grow */
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(60, 72, 88, 0.10);
+            transition: transform 0.18s, box-shadow 0.18s;
+            border: 1.5px solid #e0e7ff;
+            margin-bottom: 0;
+            position: relative;
+            box-sizing: border-box; /* Include padding in width */
+        }
+        .dashboard-stat:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 8px 32px rgba(60, 72, 88, 0.18);
+        }
+        .dashboard-stat-title {
+            font-size: 1.15rem;
+            color: #64748b;
+            margin-bottom: 12px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .dashboard-stat-value {
+            font-size: 2.4rem;
+            color: #6366f1;
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .dashboard-stat-icon {
+            font-size: 2.2rem;
+            color: #a5b4fc;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* ===== Services Styles ===== */
+        .services-section {
+            background: linear-gradient(120deg, #f0fdfa 0%, #e0e7ff 100%);
+            padding: 48px 48px 36px 48px;
+            border-radius: 18px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(60, 72, 88, 0.10);
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+            width: calc(100% - 40px); /* Adjust for padding on small screens */
+            box-sizing: border-box;
+            position: relative; /* For the ::before pseudo-element */
+            overflow: hidden;
+        }
+        .services-title {
+            font-size: 2.2rem;
+            margin-bottom: 28px;
+            color: #0e1726;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+        .services-list {
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+            justify-content: center; /* Center cards when fewer than 3 */
+        }
+        .service-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 32px 24px;
+            flex: 1 1 300px; /* Allows cards to shrink and grow, min-width 300px */
+            min-width: 260px;
+            margin-bottom: 0;
+            box-shadow: 0 4px 16px rgba(60, 72, 88, 0.08);
+            border: 1.5px solid #e0e7ff;
+            transition: transform 0.18s, box-shadow 0.18s;
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+        .service-card:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 8px 32px rgba(60, 72, 88, 0.16);
+            border-color: #38bdf8;
+        }
+        .service-card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: #2563eb;
+            letter-spacing: 0.5px;
+        }
+        .service-card-desc {
+            font-size: 1.08rem;
+            color: #475569;
+            line-height: 1.6;
+        }
+        .service-card-icon {
+            font-size: 2.2rem;
+            color: #38bdf8;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        /* ===== About Us Styles ===== */
+        .about-section {
+            background: linear-gradient(120deg, #f0fdfa 0%, #e0e7ff 100%);
+            padding: 48px 48px 36px 48px;
+            border-radius: 18px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(60, 72, 88, 0.10);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            width: calc(100% - 40px); /* Adjust for padding on small screens */
+            box-sizing: border-box;
+            position: relative; /* For the ::before pseudo-element */
+            overflow: hidden;
+        }
+        .about-title {
+            font-size: 2.2rem;
+            margin-bottom: 18px;
+            color: #0e1726;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-align: center; /* Center the title for about us */
+        }
+        .about-content {
+            font-size: 1.18rem;
+            color: #334155;
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            background: rgba(255,255,255,0.85);
+            padding: 24px 18px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(60, 72, 88, 0.06);
+        }
+
+        /* ===== Add some nice accent for all sections ===== */
+        .dashboard-container::before,
+        .services-section::before,
+        .about-section::before {
+            content: "";
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, #6366f1 0%, #e0e7ff 80%);
+            opacity: 0.12;
+            border-radius: 50%;
+            z-index: 0;
+        }
+        /* This ensures content is above the pseudo-element */
+        .dashboard-container > *,
+        .services-section > *,
+        .about-section > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-stats,
+            .services-list {
+                flex-direction: column;
+                gap: 20px; /* Add some gap back for vertical stacking */
+            }
+            .dashboard-stat,
+            .service-card {
+                margin-bottom: 0; /* Handled by gap */
+                flex: 1 1 auto; /* Allow them to take full width available */
+                max-width: 100%; /* Ensure they don't exceed container */
+            }
+            .dashboard-container,
+            .services-section,
+            .about-section {
+                padding: 28px 20px; /* Adjust padding for smaller screens */
+                width: calc(100% - 40px); /* Maintain width calc */
+            }
+            .dashboard-header,
+            .services-title,
+            .about-title {
+                font-size: 2rem; /* Slightly smaller for tablets */
+                text-align: center;
+            }
+            .about-content {
+                font-size: 1.05rem;
+                padding: 18px 12px;
+            }
+            .dashboard-stat-value {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .dashboard-header,
+            .services-title,
+            .about-title {
+                font-size: 1.8rem; /* Smaller for mobile */
+                margin-bottom: 1rem;
+            }
+            .dashboard-container,
+            .services-section,
+            .about-section {
+                padding: 20px 10px; /* More padding adjustment */
+                border-radius: 10px;
+                width: calc(100% - 20px); /* More padding adjustment */
+            }
+            .dashboard-stat,
+            .service-card {
+                padding: 20px 15px;
+                border-radius: 10px;
+            }
+            .about-content {
+                font-size: 0.95rem;
+                padding: 15px 10px;
+            }
+            .main-content {
+                margin-top: 70px; /* Adjust for potentially smaller navbar */
+                padding: 10px 0;
+            }
+            .step-container {
+                padding: 1.5rem 1.8rem;
+                margin: 2rem auto;
+            }
+            .step-title {
+                font-size: 1.1rem;
+            }
+            .step-desc {
+                font-size: 0.95rem;
+            }
+            .step-btn {
+                font-size: 1rem;
+                padding: 0.6rem 1.5rem;
+            }
+        }
+
+        /* Beautiful Customer Comments Section */
+        #customer-comments-section {
+            background: linear-gradient(120deg, #e0f7fa 0%, #e3f2fd 100%);
+            padding: 48px 48px 36px 48px;
+            border-radius: 18px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(56, 232, 255, 0.10);
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+            width: calc(100% - 40px);
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+        #customer-comments-section .services-title {
+            color: #0097a7;
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 28px;
+            text-align: center;
+        }
+        #customer-comments-section .services-list {
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        #customer-comments-section .service-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 32px 24px;
+            flex: 1 1 300px;
+            min-width: 260px;
+            margin-bottom: 0;
+            box-shadow: 0 4px 16px rgba(56, 232, 255, 0.13);
+            border: 1.5px solid #b2ebf2;
+            transition: transform 0.18s, box-shadow 0.18s;
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+        #customer-comments-section .service-card:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 8px 32px rgba(56, 232, 255, 0.18);
+            border-color: #00bcd4;
+        }
+        #customer-comments-section .service-card-icon {
+            font-size: 2.2rem;
+            color: #00bcd4;
+            margin-bottom: 12px;
+            display: block;
+        }
+        #customer-comments-section .service-card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #0097a7;
+            letter-spacing: 0.5px;
+        }
+        #customer-comments-section .service-card-desc {
+            font-size: 1.08rem;
+            color: #37474f;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        /* Unique Customer Comments Section */
+        .customer-comments-section {
+            background: linear-gradient(120deg, #f8fafc 0%, #e0f7fa 100%);
+            padding: 48px 32px 36px 32px;
+            border-radius: 18px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(56, 232, 255, 0.08);
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+            width: calc(100% - 40px);
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+        .comments-title {
+            color: #2563eb;
+            font-size: 2.1rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        .comments-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            justify-content: center;
+        }
+        .comment-card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 4px 16px rgba(56, 232, 255, 0.10);
+            padding: 24px 22px;
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            min-width: 260px;
+            max-width: 350px;
+            flex: 1 1 300px;
+            border-left: 6px solid #38e8ff;
+            transition: box-shadow 0.2s, transform 0.2s;
+            position: relative;
+        }
+        .comment-card:hover {
+            box-shadow: 0 8px 32px rgba(56, 232, 255, 0.18);
+            transform: translateY(-4px) scale(1.03);
+        }
+        .comment-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1.6rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(56, 232, 255, 0.13);
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+        .comment-name {
+            font-weight: 700;
+            color: #2563eb;
+            font-size: 1.08rem;
+            margin-bottom: 2px;
+        }
+        .comment-stars {
+            color: #ffd600;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+            letter-spacing: 2px;
+        }
+        .comment-text {
+            color: #37474f;
+            font-size: 1.05rem;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        @media (max-width: 900px) {
+            .comments-list {
+                flex-direction: column;
+                gap: 18px;
+                align-items: center;
+            }
+            .comment-card {
+                max-width: 95vw;
+            }
+        }
+
+        /* Footer styles */
+        .site-footer {
+            background: linear-gradient(120deg, #232946 0%, #3a506b 100%);
+            color: #e0e7ef;
+            padding: 48px 0 0 0;
+            margin-top: 40px;
+            font-size: 1rem;
+            border-top: 2px solid #3a506b;
+        }
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px 32px 32px;
+            gap: 32px;
+        }
+        .footer-brand {
+            flex: 1 1 220px;
+            min-width: 220px;
+            max-width: 260px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .footer-logo {
+            width: 54px;
+            height: 54px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            box-shadow: 0 2px 8px rgba(58,80,107,0.13);
+            background: #fff;
+            object-fit: contain;
+        }
+        .footer-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #e0e7ef;
+        }
+        .footer-tagline {
+            font-size: 1rem;
+            color: #bfc9d9;
+        }
+        .footer-contact, .footer-social, .footer-links {
+            flex: 1 1 180px;
+            min-width: 180px;
+            max-width: 240px;
+        }
+        .footer-contact h4, .footer-social h4, .footer-links h4 {
+            color: #a9b8d1;
+            font-size: 1.08rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .footer-contact ul, .footer-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer-contact li, .footer-links li {
+            margin-bottom: 7px;
+            color: #bfc9d9;
+        }
+        .footer-contact a, .footer-links a {
+            color: #e0e7ef;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-contact a:hover, .footer-links a:hover {
+            color: #ffd166;
+            text-decoration: underline;
+        }
+        .footer-social-icons {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+        .footer-social-icons a {
+            color: #e0e7ef;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            transition: color 0.2s;
+        }
+        .footer-social-icons a:hover {
+            color: #ffd166;
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            text-align: center;
+            color: #bfc9d9;
+            background: #232946;
+            padding: 18px 0 12px 0;
+            font-size: 0.98rem;
+            border-top: 1px solid #3a506b;
+            margin-top: 12px;
+        }
+        @media (max-width: 900px) {
+            .footer-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 24px;
+                padding: 0 16px 24px 16px;
+            }
+            .footer-brand, .footer-contact, .footer-social, .footer-links {
+                max-width: 100%;
+            }
+        }
+
+        /* Footer Info Sections */
+        .footer-info-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 36px 32px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+            width: calc(100% - 64px);
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .footer-info-section h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #2563eb;
+            position: relative;
+            display: inline-block;
+        }
+        .footer-info-section h2::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -6px;
+            left: 0;
+            background: linear-gradient(90deg, #38e8ff, #4f8cff);
+        }
+        .faq-item {
+            margin-bottom: 18px;
+        }
+        .faq-item h4 {
+            font-size: 1.1rem;
+            color: #2563eb;
+            margin-bottom: 8px;
+        }
+        .faq-item p {
+            font-size: 1rem;
+            color: #37474f;
+            margin: 0;
+        }
+        /* Responsive adjustments for footer info sections */
+        @media (max-width: 900px) {
+            .footer-info-section {
+                padding: 28px 20px;
+                margin-bottom: 24px;
+            }
+            .footer-info-section h2 {
+                font-size: 1.6rem;
+                margin-bottom: 20px;
+            }
+            .faq-item h4 {
+                font-size: 1rem;
+            }
+            .faq-item p {
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Modal for Footer Info */
+        .footer-info-modal {
+            display: none;
+            position: fixed;
+            z-index: 99999;
+            left: 0; top: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(35,41,70,0.65);
+            align-items: center;
+            justify-content: center;
+        }
+        .footer-info-modal-content {
+            background: #fff;
+            color: #232946;
+            border-radius: 14px;
+            max-width: 520px;
+            width: 92vw;
+            padding: 32px 24px 24px 24px;
+            box-shadow: 0 8px 32px rgba(35,41,70,0.18);
+            position: relative;
+            animation: fadeIn 0.3s;
+        }
+        .footer-info-modal-close {
+            position: absolute;
+            top: 14px; right: 18px;
+            font-size: 2rem;
+            color: #3a506b;
+            cursor: pointer;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        .footer-info-modal-close:hover {
+            color: #ffd166;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(40px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <img src="freepik-modern-gradient-silver-car-service-logo-20250613034838PibO[1].png" alt="Logo">
+        </div>
+        <div class="navbar-right">
+            <div class="navbar-links">
+                <a href="#dashboard-section" class="active">Dashboard</a>
+                <a href="#services-section-main">Services</a>
+                <a href="#about-section-main">About Us</a>
+                <a href="#book-ride-section">Book a Ride</a>
+            </div>
+            <div class="navbar-auth">
+                <button class="btn login">Login</button>
+                <button class="btn signup">Signup</button>
+            </div>
+            <div class="hamburger" id="hamburgerMenu" aria-label="Open menu" tabindex="0">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="navbar-dropdown" id="navbarDropdown">
+                <a href="#dashboard-section" class="active">Dashboard</a>
+                <a href="#services-section-main">Services</a>
+                <a href="#about-section-main">About Us</a>
+                <a href="#book-ride-section">Book a Ride</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section id="book-ride-section">
+            <form class="step-container" id="bookingStepsForm" autocomplete="off">
+                <div class="step-title" id="stepTitle"></div>
+                <div class="step-desc" id="stepDesc"></div>
+                <div id="stepInputArea"></div>
+                <button type="button" class="step-btn" id="nextBtn">Next</button>
+            </form>
+            <div class="success-message" id="successMessage" style="display:none;">
+                Booking completed! Thank you for booking your ride.<br><br>
+                <button id="showReceiptBtn" style="margin-top:1rem;padding:0.5rem 1.5rem;border:none;background:#38e8ff;color:#fff;border-radius:0.4rem;font-size:1rem;cursor:pointer;">View Payment Receipt</button>
+            </div>
+        </section>
+
+        <div id="receiptModal">
+            <div class="modal-content">
+                <h2>Payment Receipt</h2>
+                <div id="receiptContent" style="margin-bottom:1.5rem;"></div>
+                <button id="closeReceiptBtn">Close</button>
+            </div>
+        </div>
+
+
+        <section id="services-section-main" class="services-section">
+            <h2 class="services-title">Our Services</h2>
+            <div class="services-list">
+                <div class="service-card">
+                    <span class="service-card-icon">🚗</span>
+                    <h3 class="service-card-title">Standard Rides</h3>
+                    <p class="service-card-desc">Affordable and comfortable city rides for your daily commute.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-card-icon">✨</span>
+                    <h3 class="service-card-title">Premium Rides</h3>
+                    <p class="service-card-desc">Experience executive comfort with our high-end vehicles and professional drivers.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-card-icon">SUV</span>
+                    <h3 class="service-card-title">SUV Rides</h3>
+                    <p class="service-card-desc">Spacious and safe options for group travel or extra luggage.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-card-icon">✈️</span>
+                    <h3 class="service-card-title">Airport Transfers</h3>
+                    <p class="service-card-desc">Timely and reliable pickups and drop-offs to and from the airport.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-card-icon">🛣️</span>
+                    <h3 class="service-card-title">Interstate Travel</h3>
+                    <p class="service-card-desc">Travel across Nigeria comfortably and safely with our long-distance services.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-card-icon">⏰</span>
+                    <h3 class="service-card-title">Hourly Rentals</h3>
+                    <p class="service-card-desc">Flexible booking options for when you need a car for a few hours.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-card-icon">💼</span>
+                    <h3 class="service-card-title">Corporate Rides</h3>
+                    <p class="service-card-desc">Dedicated transportation solutions for your business needs and events.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-card-icon">🏫</span>
+                    <h3 class="service-card-title">School Runs</h3>
+                    <p class="service-card-desc">Safe and reliable transport for your children to and from school.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Customer Comments Section -->
+        <section id="customer-comments-section" class="customer-comments-section">
+            <h2 class="comments-title">What Our Customers Say</h2>
+            <div class="comments-list">
+                <div class="comment-card">
+                    <div class="comment-avatar" style="background:#38e8ff;">C</div>
+                    <div>
+                        <div class="comment-name">Chinedu O.</div>
+                        <div class="comment-stars">★★★★★</div>
+                        <div class="comment-text">Fast and reliable! The driver was courteous and the car was clean. Highly recommended.</div>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <div class="comment-avatar" style="background:#6366f1;">A</div>
+                    <div>
+                        <div class="comment-name">Aisha B.</div>
+                        <div class="comment-stars">★★★★☆</div>
+                        <div class="comment-text">Booking was easy and the fare was fair. Will use Ride Now again!</div>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <div class="comment-avatar" style="background:#00bcd4;">E</div>
+                    <div>
+                        <div class="comment-name">Emeka N.</div>
+                        <div class="comment-stars">★★★★★</div>
+                        <div class="comment-text">Great service and prompt support. My go-to for airport transfers.</div>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <div class="comment-avatar" style="background:#ffb300;">F</div>
+                    <div>
+                        <div class="comment-name">Fatima S.</div>
+                        <div class="comment-stars">★★★★★</div>
+                        <div class="comment-text">Very safe and comfortable ride for my kids' school runs. Thank you!</div>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <div class="comment-avatar" style="background:#009688;">T</div>
+                    <div>
+                        <div class="comment-name">Tunde A.</div>
+                        <div class="comment-stars">★★★★☆</div>
+                        <div class="comment-text">Driver arrived on time and the app is easy to use. Highly recommended!</div>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <div class="comment-avatar" style="background:#e91e63;">S</div>
+                    <div>
+                        <div class="comment-name">Sade K.</div>
+                        <div class="comment-stars">★★★★★</div>
+                        <div class="comment-text">Excellent customer support and very clean vehicles. Will book again!</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about-section-main" class="about-section">
+            <h2 class="about-title">About Us</h2>
+            <div class="about-content">
+                <p>
+                    <b>Ride Now</b> is Nigeria’s trusted platform for fast, safe, and reliable rides. Our professional drivers and modern vehicles ensure you travel in comfort and style, whether for business, leisure, or daily commutes.
+                </p>
+                <p>
+                    Our mission is to make transportation seamless and enjoyable for everyone in Nigeria. We are committed to providing:
+                </p>
+                <ul>
+                    <li>24/7 Customer Support</li>
+                    <li>Clean &amp; Comfortable Cars</li>
+                    <li>Transparent Pricing</li>
+                    <li>Easy Booking Process</li>
+                    <li>Experienced &amp; Vetted Drivers</li>
+                    <li>Coverage in Major Nigerian Cities</li>
+                    <li>Commitment to Safety &amp; Security</li>
+                    <li>Multiple Payment Options</li>
+                    <li>Regular Vehicle Maintenance</li>
+                </ul>
+                <p>
+                    Join thousands of happy riders who trust Ride Now every day!
+                </p>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <!--<section id="faq-section" class="footer-info-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <h4>How do I book a ride?</h4>
+                    <p>Simply use the "Book a Ride" section, enter your pickup and dropoff locations, select your ride type, and confirm your booking.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Can I pay with cash?</h4>
+                    <p>Yes, we accept cash, card, and wallet payments for your convenience.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Is Ride Now available in my city?</h4>
+                    <p>We operate in all major Nigerian cities. Check our app or website for coverage details.</p>
+                </div>
+            </div>
+        </section>-->
+
+        <!-- Terms & Conditions Section -->
+       <!-- <section id="terms-section" class="footer-info-section">
+            <h2>Terms &amp; Conditions</h2>
+            <p>
+                By using Ride Now, you agree to our terms: rides are subject to availability, fares are calculated based on distance and ride type, and users must provide accurate information. Misuse of the platform may result in account suspension.
+            </p>
+            <ul>
+                <li>All bookings are subject to driver availability.</li>
+                <li>Payment must be made at the end of each ride.</li>
+                <li>Cancellation fees may apply for last-minute cancellations.</li>
+                <li>Respect drivers and other passengers at all times.</li>
+                <li>Users must be at least 18 years old or have parental consent.</li>
+                <li>Do not use the service for illegal activities.</li>
+                <li>We reserve the right to update these terms at any time.</li>
+                <li>Disputes will be resolved under Nigerian law.</li>
+                <li>Ride Now is not responsible for items left in vehicles.</li>
+                <li>Abusive behavior towards staff or drivers will not be tolerated.</li>
+            </ul>
+        </section>-->
+
+        <!-- Privacy Policy Section -->
+        <!--<section id="privacy-section" class="footer-info-section">
+            <h2>Privacy Policy</h2>
+            <p>
+                We value your privacy. Your personal data is used only for booking and improving our services. We do not share your information with third parties except as required by law or to complete your ride.
+            </p>
+            <ul>
+                <li>We collect only necessary information for bookings (name, contact, pickup/dropoff).</li>
+                <li>Your data is stored securely and never sold.</li>
+                <li>We use cookies to enhance your experience on our platform.</li>
+                <li>You can request deletion of your data at any time by contacting support.</li>
+                <li>Payment information is processed securely via trusted third-party providers.</li>
+                <li>We may send you service updates or promotions, but you can opt out at any time.</li>
+                <li>Our website may contain links to third-party sites; we are not responsible for their privacy practices.</li>
+                <li>For questions about your privacy, contact us at <a href="mailto:support@ridenow.ng">support@ridenow.ng</a>.</li>
+            </ul>
+        </section>-->
+
+        <!-- Modal for Footer Info -->
+        <div id="footerInfoModal" class="footer-info-modal">
+            <div class="footer-info-modal-content">
+                <span class="footer-info-modal-close" id="footerInfoModalClose">&times;</span>
+                <div id="footerInfoModalBody"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <img src="freepik-modern-gradient-silver-car-service-logo-20250613034838PibO[1].png" alt="Ride Now Logo" class="footer-logo">
+                <div class="footer-title">Ride Now</div>
+                <div class="footer-tagline">Nigeria’s trusted platform for fast, safe, and reliable rides.</div>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <ul>
+                    <li><strong>Address:</strong> 13 Ugwuaji Street, Achara Layout, Enugu, Nigeria</li>
+                    <li><strong>Phone:</strong> <a href="tel:+2349046652360">+234 904 665 2360</a></li>
+                    <li><strong>Email:</strong> <a href="mailto:support@ridenow.ng">support@ridenow.ng</a></li>
+                    <li><strong>Support Hotline:</strong> <a href="tel:+2348109242124">+234 810 924 2124</a></li>
+                    <li><strong>Office Hours:</strong> Mon-Sat, 5am - 11pm</li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h4>Follow Us</h4>
+                <div class="footer-social-icons">
+                    <a href="https://facebook.com/ridenowng" target="_blank" aria-label="Facebook"><span>🌐</span> Facebook</a>
+                    <a href="https://twitter.com/ridenowng" target="_blank" aria-label="Twitter"><span>🐦</span> Twitter</a>
+                    <a href="https://instagram.com/ridenowng" target="_blank" aria-label="Instagram"><span>📸</span> Instagram</a>
+                    <a href="https://wa.me/2348012345678" target="_blank" aria-label="WhatsApp"><span>💬</span> WhatsApp</a>
+                    <a href="https://linkedin.com/company/ridenowng" target="_blank" aria-label="LinkedIn"><span>💼</span> LinkedIn</a>
+                    <a href="https://youtube.com/ridenowng" target="_blank" aria-label="YouTube"><span>▶️</span> YouTube</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#dashboard-section">Dashboard</a></li>
+                    <li><a href="#services-section-main">Services</a></li>
+                    <li><a href="#about-section-main">About Us</a></li>
+                    <li><a href="#book-ride-section">Book a Ride</a></li>
+                    <li><a href="#" class="footer-info-link" data-info="faq">FAQs</a></li>
+                    <li><a href="#" class="footer-info-link" data-info="terms">Terms &amp; Conditions</a></li>
+                    <li><a href="#" class="footer-info-link" data-info="privacy">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 Ride Now. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('get-location-btn').onclick = function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(success, error);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+
+            function success(position) {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+
+                // Use OpenStreetMap Nominatim for reverse geocoding
+                fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
+                    .then(response => response.json())
+                    .then((data) => {
+                        document.getElementById('address').value = data.display_name || "Address not found";
+                    })
+                    .catch(() => {
+                        document.getElementById('address').value = "Unable to retrieve address";
+                    });
+            }
+
+            function error() {
+                alert("Unable to retrieve your location.");
+            }
+        };
+    </script>
+
+    <script>
+        // Booking steps with input fields
+        const steps = [
+            {
+                title: "Step 1: Enter Pickup Location",
+                desc: "Type in the address or select your current location as the pickup point.",
+                input: `<label for="pickup">Pickup Location</label>
+                        <div class="autocomplete-wrapper" style="position:relative;">
+                            <input
+                                type="text"
+                                id="pickup"
+                                name="pickup"
+                                class="autocomplete-input step-input"
+                                placeholder="Enter pickup location"
+                                required
+                                autocomplete="off"
+                            >
+                            <div id="pickup-suggestions" class="autocomplete-suggestions"></div>
+                        </div>
+                        <button type="button" id="currentLocationBtn" class="step-btn" style="margin-top:0.5rem; background: #00796b; color: #fff;">Use Current Location</button>`
+            },
+            {
+                title: "Step 2: Enter Dropoff Location",
+                desc: "Type in the address where you want to go.",
+                input: `<label for="dropoff">Dropoff Location</label>
+                        <div class="autocomplete-wrapper" style="position:relative;">
+                            <input
+                                type="text"
+                                id="dropoff"
+                                name="dropoff"
+                                class="autocomplete-input step-input"
+                                placeholder="Enter dropoff location"
+                                required
+                                autocomplete="off"
+                            >
+                            <div id="dropoff-suggestions" class="autocomplete-suggestions"></div>
+                        </div>`
+            },
+            {
+                title: "Step 3: Select Ride Type",
+                desc: "Choose the type of ride.",
+                input: `<select id="rideType" class="step-select" required>
+                            <option value="">Select ride type</option>
+                            <option value="Standard">Standard</option>
+                            <option value="Premium">Premium</option>
+                            <option value="SUV">SUV</option>
+                        </select>`
+            },
+            {
+                title: "Step 4: Choose Date & Time",
+                desc: "Pick the date and time for your ride.",
+                input: `<input type="datetime-local" id="date" class="step-input" required>`
+            },
+            {
+                title: "Step 5: Select Payment Method",
+                desc: "Choose how you want to pay.",
+                input: `<select id="paymentMethod" class="step-select" required>
+                            <option value="">Select payment method</option>
+                            <option value="card">Credit/Debit Card</option>
+                            <option value="cash">Cash</option>
+                            <option value="wallet">Wallet</option>
+                        </select>`
+            },
+            {
+                title: "Step 6: Confirm Booking",
+                desc: "Review your ride details and confirm.",
+                input: `<div class="step-summary" id="bookingSummary"></div>`
+            }
+        ];
+
+        let currentStep = 0;
+        const bookingData = {};
+
+        const stepTitle = document.getElementById('stepTitle');
+        const stepDesc = document.getElementById('stepDesc');
+        const stepInputArea = document.getElementById('stepInputArea');
+        const nextBtn = document.getElementById('nextBtn');
+        const successMessage = document.getElementById('successMessage');
+        const bookingStepsForm = document.getElementById('bookingStepsForm');
+        const receiptModal = document.getElementById('receiptModal');
+        const receiptContent = document.getElementById('receiptContent');
+        const showReceiptBtn = document.getElementById('showReceiptBtn');
+        const closeReceiptBtn = document.getElementById('closeReceiptBtn');
+
+        // Function to update the step content
+        function updateStep() {
+            if (currentStep < steps.length) {
+                const step = steps[currentStep];
+                stepTitle.textContent = step.title;
+                stepDesc.textContent = step.desc;
+                stepInputArea.innerHTML = step.input;
+                nextBtn.textContent = currentStep === steps.length - 1 ? 'Confirm Booking' : 'Next';
+
+                // Add event listeners for autocomplete if inputs are present
+                if (currentStep === 0) {
+                    setupAutocomplete('pickup', 'pickup-suggestions');
+                    document.getElementById('currentLocationBtn').addEventListener('click', getCurrentLocation);
+                } else if (currentStep === 1) {
+                    setupAutocomplete('dropoff', 'dropoff-suggestions');
+                } else if (currentStep === steps.length - 1) {
+                    displayBookingSummary();
+                }
+            } else {
+                showSuccess();
+            }
+        }
+
+        // Function to handle next step
+        nextBtn.addEventListener('click', () => {
+            const currentInput = stepInputArea.querySelector('.step-input, .step-select');
+            if (currentInput && !currentInput.value) {
+                alert('Please fill in the required field before proceeding.');
+                return;
+            }
+
+            if (currentStep === 0) {
+                bookingData.pickup = document.getElementById('pickup').value;
+            } else if (currentStep === 1) {
+                bookingData.dropoff = document.getElementById('dropoff').value;
+            } else if (currentStep === 2) {
+                bookingData.rideType = document.getElementById('rideType').value;
+            } else if (currentStep === 3) {
+                bookingData.dateTime = document.getElementById('date').value;
+            } else if (currentStep === 4) {
+                bookingData.paymentMethod = document.getElementById('paymentMethod').value;
+            }
+
+            currentStep++;
+            updateStep();
+        });
+
+        // Function to display booking summary
+        function displayBookingSummary() {
+            const summaryDiv = document.getElementById('bookingSummary');
+            summaryDiv.innerHTML = `
+                <p><strong>Pickup:</strong> ${bookingData.pickup}</p>
+                <p><strong>Dropoff:</strong> ${bookingData.dropoff}</p>
+                <p><strong>Ride Type:</strong> ${bookingData.rideType}</p>
+                <p><strong>Date & Time:</strong> ${new Date(bookingData.dateTime).toLocaleString()}</p>
+                <p><strong>Payment Method:</strong> ${bookingData.paymentMethod}</p>
+                <p><strong>Estimated Fare:</strong> &#8358;${generateFare()}</p>
+            `;
+        }
+
+        // Function to generate a random fare
+        function generateFare() {
+            const baseFare = 500;
+            const distanceFactor = Math.floor(Math.random() * 2000) + 1000; // Random between 1000 and 3000
+            let typeFactor = 1;
+            if (bookingData.rideType === 'Premium') typeFactor = 1.8;
+            if (bookingData.rideType === 'SUV') typeFactor = 2.5;
+            return Math.ceil((baseFare + distanceFactor * 0.1) * typeFactor / 100) * 100; // Round to nearest 100
+        }
+
+        // Function to show success message
+        function showSuccess() {
+            bookingStepsForm.style.display = 'none';
+            successMessage.style.display = 'block';
+            bookingData.fare = generateFare();
+            bookingData.rideId = generateRideId();
+            bookingData.driver = {
+                name: 'John Doe',
+                vehicle: 'Toyota Camry',
+                plate: 'ABC-123-NGN',
+                phone: '+2348012345678'
+            };
+        }
+
+        // Function to generate a random ride ID
+        function generateRideId() {
+            return 'RIDE-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        }
+
+        // Handle receipt modal
+        showReceiptBtn.addEventListener('click', () => {
+            receiptContent.innerHTML = `
+                <p><strong>Ride ID:</strong> ${bookingData.rideId}</p>
+                <p><strong>Pickup:</strong> ${bookingData.pickup}</p>
+                <p><strong>Dropoff:</strong> ${bookingData.dropoff}</p>
+                <p><strong>Ride Type:</strong> ${bookingData.rideType}</p>
+                <p><strong>Date & Time:</strong> ${new Date(bookingData.dateTime).toLocaleString()}</p>
+                <p><strong>Payment Method:</strong> ${bookingData.paymentMethod}</p>
+                <p><strong>Amount Paid:</strong> &#8358;${bookingData.fare}</p>
+                <hr>
+                <div class="driver-info">
+                    <p><strong>Driver:</strong></p>
+                    <span>Name: ${bookingData.driver.name}</span>
+                    <span>Vehicle: ${bookingData.driver.vehicle} (${bookingData.driver.plate})</span>
+                    <span>Contact: ${bookingData.driver.phone}</span>
+                </div>
+                    <span>Name: ${bookingData.driver.name}</span>
+                    <span>Vehicle: ${bookingData.driver.vehicle} (${bookingData.driver.plate})</span>
+                    <span>Contact: ${bookingData.driver.phone}</span>
+                </div>
+            `;
+            receiptModal.style.display = 'flex';
+        });
+
+        closeReceiptBtn.addEventListener('click', () => {
+            receiptModal.style.display = 'none';
+        });
+
+        // Autocomplete functionality
+        function setupAutocomplete(inputId, suggestionsId) {
+            const input = document.getElementById(inputId);
+            const suggestionsContainer = document.getElementById(suggestionsId);
+
+            let activeSuggestionIndex = -1;
+
+            input.addEventListener('input', async function() {
+                const query = this.value;
+                if (query.length < 3) {
+                    suggestionsContainer.style.display = 'none';
+                    return;
+                }
+
+                try {
+                    // Using OpenStreetMap Nominatim API for Nigeria
+                    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}, Nigeria&addressdetails=1&limit=5`);
+                    const data = await response.json();
+
+                    suggestionsContainer.innerHTML = '';
+                    if (data.length > 0) {
+                        data.forEach((item, index) => {
+                            const suggestionDiv = document.createElement('div');
+                            suggestionDiv.classList.add('autocomplete-suggestion');
+                            suggestionDiv.textContent = item.display_name;
+                            suggestionDiv.addEventListener('click', function() {
+                                input.value = item.display_name;
+                                suggestionsContainer.style.display = 'none';
+                            });
+                            suggestionsContainer.appendChild(suggestionDiv);
+                        });
+                        suggestionsContainer.style.display = 'block';
+                        activeSuggestionIndex = -1; // Reset active suggestion
+                    } else {
+                        suggestionsContainer.style.display = 'none';
+                    }
+                } catch (error) {
+                    console.error('Error fetching autocomplete suggestions:', error);
+                    suggestionsContainer.style.display = 'none';
+                }
+            });
+
+            input.addEventListener('keydown', function(e) {
+                const suggestions = suggestionsContainer.querySelectorAll('.autocomplete-suggestion');
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (activeSuggestionIndex < suggestions.length - 1) {
+                        activeSuggestionIndex++;
+                    } else {
+                        activeSuggestionIndex = 0; // Loop to the first
+                    }
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (activeSuggestionIndex > 0) {
+                        activeSuggestionIndex--;
+                    } else {
+                        activeSuggestionIndex = suggestions.length - 1; // Loop to the last
+                    }
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (activeSuggestionIndex > -1 && suggestions.length > 0) {
+                        suggestions[activeSuggestionIndex].click();
+                    }
+                }
+
+                // Update active suggestion style
+                suggestions.forEach((suggestion, index) => {
+                    if (index === activeSuggestionIndex) {
+                        suggestion.classList.add('active');
+                    } else {
+                        suggestion.classList.remove('active');
+                    }
+                });
+            });
+        }
+
+        // Get current location and fill in the pickup address
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+
+                    // Reverse geocoding to get the address
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('pickup').value = data.display_name;
+                            document.getElementById('pickup-suggestions').style.display = 'none'; // Hide suggestions
+                        })
+                        .catch(error => console.error('Error fetching address:', error));
+                }, error => {
+                    console.error('Error getting location:', error);
+                    alert('Unable to retrieve your location. Please ensure location services are enabled.');
+                });
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+
+        // Initialize the first step
+        updateStep();
+    </script>
+
+    <script>
+const hamburgerMenu = document.getElementById('hamburgerMenu');
+const navbarDropdown = document.getElementById('navbarDropdown');
+hamburgerMenu.addEventListener('click', () => {
+    navbarDropdown.classList.toggle('show');
+    hamburgerMenu.classList.toggle('open');
+});
+</script>
+
+    <script>
+// Content for each modal section
+const footerInfoContent = {
+  faq: `
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <h4>How do I book a ride?</h4>
+        <p>Use the "Book a Ride" section, enter your pickup and dropoff, select ride type, and confirm.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Can I pay with cash?</h4>
+        <p>Yes, we accept cash, card, and wallet payments.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Is Ride Now available in my city?</h4>
+        <p>We operate in all major Nigerian cities. Check our app or website for coverage.</p>
+      </div>
+      <div class="faq-item">
+        <h4>How do I contact customer support?</h4>
+        <p>You can reach us via phone, WhatsApp, or email as listed in the footer. Our support team is available 24/7.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Can I schedule a ride in advance?</h4>
+        <p>Yes, you can select a future date and time when booking your ride.</p>
+      </div>
+      <div class="faq-item">
+        <h4>How do I cancel a booking?</h4>
+        <p>Go to your bookings page and select the ride you wish to cancel. Cancellation fees may apply.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Are your drivers vetted?</h4>
+        <p>All our drivers undergo background checks and regular training to ensure your safety.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Can I rate my driver?</h4>
+        <p>Yes, after each ride you can rate your driver and provide feedback to help us improve our service.</p>
+      </div>
+    </div>
+  `,
+  terms: `
+    <h2>Terms &amp; Conditions</h2>
+    <p>
+      By using Ride Now, you agree to our terms: rides are subject to availability, fares are calculated based on distance and ride type, and users must provide accurate information. Misuse of the platform may result in account suspension.
+    </p>
+    <ul>
+      <li>All bookings are subject to driver availability.</li>
+      <li>Payment must be made at the end of each ride.</li>
+      <li>Cancellation fees may apply for last-minute cancellations.</li>
+      <li>Respect drivers and other passengers at all times.</li>
+      <li>Users must be at least 18 years old or have parental consent.</li>
+      <li>Do not use the service for illegal activities.</li>
+      <li>We reserve the right to update these terms at any time.</li>
+      <li>Disputes will be resolved under Nigerian law.</li>
+      <li>Ride Now is not responsible for items left in vehicles.</li>
+      <li>Abusive behavior towards staff or drivers will not be tolerated.</li>
+    </ul>
+  `,
+  privacy: `
+    <h2>Privacy Policy</h2>
+    <p>
+      We value your privacy. Your personal data is used only for booking and improving our services. We do not share your information with third parties except as required by law or to complete your ride.
+    </p>
+    <ul>
+      <li>We collect only necessary information for bookings (name, contact, pickup/dropoff).</li>
+      <li>Your data is stored securely and never sold.</li>
+      <li>We use cookies to enhance your experience on our platform.</li>
+      <li>You can request deletion of your data at any time by contacting support.</li>
+      <li>Payment information is processed securely via trusted third-party providers.</li>
+      <li>We may send you service updates or promotions, but you can opt out at any time.</li>
+      <li>Our website may contain links to third-party sites; we are not responsible for their privacy practices.</li>
+      <li>For questions about your privacy, contact us at <a href="mailto:support@ridenow.ng">support@ridenow.ng</a>.</li>
+    </ul>
+  `
+};
+
+// Modal logic
+const modal = document.getElementById('footerInfoModal');
+const modalBody = document.getElementById('footerInfoModalBody');
+const modalClose = document.getElementById('footerInfoModalClose');
+document.querySelectorAll('.footer-info-link').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const infoType = this.getAttribute('data-info');
+    modalBody.innerHTML = footerInfoContent[infoType] || '';
+    modal.style.display = 'flex';
+  });
+});
+modalClose.onclick = () => { modal.style.display = 'none'; };
+window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+</script>
+</body>
+</html>
