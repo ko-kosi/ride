@@ -768,7 +768,7 @@
         }
         .comment-card {
             background: #fff;
-            border-radius: 90px;
+            border-radius: 1rem; /* Changed from 90px for better readability on mobile */
             box-shadow: 0 4px 16px rgba(56, 232, 255, 0.10);
             padding: 24px 24px;
             display: flex;
@@ -824,7 +824,7 @@
                 align-items: center;
             }
             .comment-card {
-                max-width: 95vw;
+                max-width: 100%; /* Adjusted for better mobile responsiveness */
             }
         }
 
@@ -1279,35 +1279,6 @@
             &copy; 2025 Ride Now. All rights reserved.
         </div>
     </footer>
-
-    <script>
-        document.getElementById('get-location-btn').onclick = function() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(success, error);
-            } else {
-                alert("Geolocation is not supported by this browser.");
-            }
-
-            function success(position) {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-
-                // Use OpenStreetMap Nominatim for reverse geocoding
-                fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
-                    .then(response => response.json())
-                    .then((data) => {
-                        document.getElementById('address').value = data.display_name || "Address not found";
-                    })
-                    .catch(() => {
-                        document.getElementById('address').value = "Unable to retrieve address";
-                    });
-            }
-
-            function error() {
-                alert("Unable to retrieve your location.");
-            }
-        };
-    </script>
 
     <script>
         // Booking steps with input fields
