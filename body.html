@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ride Booking Steps - Nigeria Autocomplete</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Custom font import */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         body {
             min-height: 100vh;
             margin: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Inter', sans-serif; /* Changed to Inter as per standard instructions */
             background: linear-gradient(120deg, #4f8cff 0%, #38e8ff 100%);
             color: #222;
             display: flex;
@@ -416,33 +420,6 @@
             width: calc(100% - 40px); /* Adjust for padding on small screens */
             box-sizing: border-box; /* Ensures padding is included in width */
         }
-        .dashboard-header {
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 32px;
-            color: #1e293b;
-            letter-spacing: -1px;
-            text-shadow: 0 2px 8px rgba(30,41,59,0.07);
-        }
-        .dashboard-stats {
-            display: flex;
-            gap: 32px;
-            justify-content: space-between;
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
-        }
-        .dashboard-stat {
-            background: rgba(255,255,255,0.95);
-            padding: 36px 28px;
-            border-radius: 14px;
-            flex: 1 1 260px; /* Allows cards to shrink and grow */
-            text-align: center;
-            box-shadow: 0 4px 16px rgba(60, 72, 88, 0.10);
-            transition: transform 0.18s, box-shadow 0.18s;
-            border: 1.5px solid #e0e7ff;
-            margin-bottom: 0;
-            position: relative;
-            box-sizing: border-box; /* Include padding in width */
-        }
         .dashboard-stat:hover {
             transform: translateY(-6px) scale(1.03);
             box-shadow: 0 8px 32px rgba(60, 72, 88, 0.18);
@@ -570,10 +547,110 @@
             box-shadow: 0 2px 8px rgba(60, 72, 88, 0.06);
         }
 
+        /* ===== Customer Reviews Styles ===== */
+        .reviews-section {
+            background: linear-gradient(120deg, #f0fdfa 0%, #e0e7ff 100%);
+            padding: 48px 48px 36px 48px;
+            border-radius: 18px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(60, 72, 88, 0.10);
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+            width: calc(100% - 40px); /* Adjust for padding on small screens */
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+        .reviews-title {
+            font-size: 2.2rem;
+            margin-bottom: 28px;
+            color: #0e1726;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-align: center;
+        }
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            justify-content: center;
+        }
+        .review-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            text-align: left;
+            border-left: 4px solid; /* Dynamic color will be added by Tailwind */
+            display: flex;
+            align-items: flex-start;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        .review-avatar {
+            flex-shrink: 0;
+            width: 3rem; /* 48px */
+            height: 3rem; /* 48px */
+            border-radius: 9999px; /* full rounded */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem; /* 20px */
+            margin-right: 1rem;
+        }
+        .review-content {
+            flex-grow: 1;
+        }
+        .review-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 1rem;
+        }
+        .review-text {
+            font-style: italic;
+            line-height: 1.6;
+            font-size: 1rem;
+            color: #475569;
+        }
+        .review-stars {
+            display: flex;
+            margin-bottom: 0.5rem;
+        }
+        .star-icon {
+            width: 1.25rem; /* 20px */
+            height: 1.25rem; /* 20px */
+            fill: currentColor;
+            color: #facc15; /* Yellow-400 */
+        }
+        .star-empty {
+            color: #d1d5db; /* Gray-300 */
+        }
+        /* Define keyframes for a subtle fade-in animation for stars */
+        @keyframes fadeInStar {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        /* Apply animation to each star with a delay */
+        .star-animated {
+            animation: fadeInStar 0.3s ease-out forwards;
+            opacity: 0; /* Start invisible */
+        }
+        .star-animated:nth-child(1) { animation-delay: 0s; }
+        .star-animated:nth-child(2) { animation-delay: 0.1s; }
+        .star-animated:nth-child(3) { animation-delay: 0.2s; }
+        .star-animated:nth-child(4) { animation-delay: 0.3s; }
+        .star-animated:nth-child(5) { animation-delay: 0.4s; }
+
         /* ===== Add some nice accent for all sections ===== */
         .dashboard-container::before,
         .services-section::before,
-        .about-section::before {
+        .about-section::before,
+        .reviews-section::before {
             content: "";
             position: absolute;
             top: -60px;
@@ -588,32 +665,37 @@
         /* This ensures content is above the pseudo-element */
         .dashboard-container > *,
         .services-section > *,
-        .about-section > * {
+        .about-section > *,
+        .reviews-section > * {
             position: relative;
             z-index: 1;
         }
 
         @media (max-width: 900px) {
             .dashboard-stats,
-            .services-list {
+            .services-list,
+            .reviews-grid { /* Added reviews-grid here */
                 flex-direction: column;
                 gap: 20px; /* Add some gap back for vertical stacking */
             }
             .dashboard-stat,
-            .service-card {
+            .service-card,
+            .review-card { /* Added review-card here */
                 margin-bottom: 0; /* Handled by gap */
                 flex: 1 1 auto; /* Allow them to take full width available */
                 max-width: 100%; /* Ensure they don't exceed container */
             }
             .dashboard-container,
             .services-section,
-            .about-section {
+            .about-section,
+            .reviews-section { /* Added reviews-section here */
                 padding: 28px 20px; /* Adjust padding for smaller screens */
                 width: calc(100% - 40px); /* Maintain width calc */
             }
             .dashboard-header,
             .services-title,
-            .about-title {
+            .about-title,
+            .reviews-title { /* Added reviews-title here */
                 font-size: 2rem; /* Slightly smaller for tablets */
                 text-align: center;
             }
@@ -629,19 +711,22 @@
         @media (max-width: 600px) {
             .dashboard-header,
             .services-title,
-            .about-title {
+            .about-title,
+            .reviews-title { /* Added reviews-title here */
                 font-size: 1.8rem; /* Smaller for mobile */
                 margin-bottom: 1rem;
             }
             .dashboard-container,
             .services-section,
-            .about-section {
+            .about-section,
+            .reviews-section { /* Added reviews-section here */
                 padding: 20px 10px; /* More padding adjustment */
                 border-radius: 10px;
                 width: calc(100% - 20px); /* More padding adjustment */
             }
             .dashboard-stat,
-            .service-card {
+            .service-card,
+            .review-card { /* Added review-card here */
                 padding: 20px 15px;
                 border-radius: 10px;
             }
@@ -667,179 +752,8 @@
                 font-size: 1rem;
                 padding: 0.6rem 1.5rem;
             }
-            /* Specific adjustments for Customer Comments section on small mobile */
-            .customer-comments-section {
-                padding: 15px 8px; /* Reduced padding */
-            }
-            .comment-card {
-                padding: 18px; /* Reduced internal padding */
-            }
-            .comment-name {
-                font-size: 1rem; /* Slightly smaller font size */
-            }
-            .comment-text {
-                font-size: 0.95rem; /* Smaller font size for comment text */
-            }
         }
 
-        /* Beautiful Customer Comments Section */
-        #customer-comments-section {
-            background: linear-gradient(120deg, #e0f7fa 0%, #e3f2fd 100%);
-            padding: 48px 48px 36px 48px;
-            border-radius: 18px;
-            margin-bottom: 40px;
-            box-shadow: 0 8px 32px rgba(56, 232, 255, 0.10);
-            max-width: 1100px;
-            margin-left: auto;
-            margin-right: auto;
-            width: calc(100% - 40px);
-            box-sizing: border-box;
-            position: relative;
-            overflow: hidden;
-        }
-        #customer-comments-section .services-title {
-            color: #0097a7;
-            font-size: 2.2rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin-bottom: 28px;
-            text-align: center;
-        }
-        #customer-comments-section .services-list {
-            display: flex;
-            gap: 32px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        #customer-comments-section .service-card {
-            background: #ffffff;
-            border-radius: 14px;
-            padding: 32px 24px;
-            flex: 1 1 300px;
-            min-width: 260px;
-            margin-bottom: 0;
-            box-shadow: 0 4px 16px rgba(56, 232, 255, 0.13);
-            border: 1.5px solid #b2ebf2;
-            transition: transform 0.18s, box-shadow 0.18s;
-            position: relative;
-            overflow: hidden;
-            box-sizing: border-box;
-        }
-        #customer-comments-section .service-card:hover {
-            transform: translateY(-6px) scale(1.03);
-            box-shadow: 0 8px 32px rgba(56, 232, 255, 0.18);
-            border-color: #00bcd4;
-        }
-        #customer-comments-section .service-card-icon {
-            font-size: 2.2rem;
-            color: #00bcd4;
-            margin-bottom: 12px;
-            display: block;
-        }
-        #customer-comments-section .service-card-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 14px;
-            color: #0097a7;
-            letter-spacing: 0.5px;
-        }
-        #customer-comments-section .service-card-desc {
-            font-size: 1.08rem;
-            color: #37474f;
-            line-height: 1.6;
-            font-style: italic;
-        }
-
-        /* Unique Customer Comments Section */
-        .customer-comments-section {
-            background: linear-gradient(120deg, #f8fafc 0%, #e0f7fa 100%);
-            padding: 48px 32px 36px 32px;
-            border-radius: 18px;
-            margin-bottom: 40px;
-            box-shadow: 0 8px 32px rgba(56, 232, 255, 0.08);
-            max-width: 1100px;
-            margin-left: auto;
-            margin-right: auto;
-            width: calc(100% - 40px);
-            box-sizing: border-box;
-            position: relative;
-            overflow: hidden;
-        }
-        .comments-title {
-            color: #2563eb;
-            font-size: 2.1rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin-bottom: 32px;
-            text-align: center;
-        }
-        .comments-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: center;
-        }
-        .comment-card {
-            background: #fff;
-            border-radius: 1rem; /* Changed from 90px for better readability on mobile */
-            box-shadow: 0 4px 16px rgba(56, 232, 255, 0.10);
-            padding: 24px 24px;
-            display: flex;
-            align-items: flex-start;
-            gap: 18px;
-            min-width: 260px;
-            max-width: 350px;
-            flex: 1 1 300px;
-            border-left: 6px solid #38e8ff;
-            transition: box-shadow 0.2s, transform 0.2s;
-            position: relative;
-        }
-        .comment-card:hover {
-            box-shadow: 0 8px 32px rgba(56, 232, 255, 0.18);
-            transform: translateY(-4px) scale(1.03);
-        }
-        .comment-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            color: #fff;
-            font-size: 1.6rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 8px rgba(56, 232, 255, 0.13);
-            flex-shrink: 0;
-            margin-top: 4px;
-        }
-        .comment-name {
-            font-weight: 700;
-            color: #2563eb;
-            font-size: 1.08rem;
-            margin-bottom: 2px;
-        }
-        .comment-stars {
-            color: #ffd600;
-            font-size: 1.1rem;
-            margin-bottom: 6px;
-            letter-spacing: 2px;
-        }
-        .comment-text {
-            color: #37474f;
-            font-size: 1.05rem;
-            font-style: italic;
-            line-height: 1.5;
-        }
-        @media (max-width: 900px) {
-            .comments-list {
-                flex-direction: column;
-                gap: 18px;
-                align-items: center;
-            }
-            .comment-card {
-                max-width: 100%; /* Adjusted for better mobile responsiveness */
-            }
-        }
 
         /* Footer styles */
         .site-footer {
@@ -1055,6 +969,31 @@
             from { opacity: 0; transform: translateY(40px);}
             to { opacity: 1; transform: translateY(0);}
         }
+
+        /* For geolocation messages */
+        .geolocation-message {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            display: none; /* Hidden by default */
+        }
+        .geolocation-message.success {
+            background-color: #e6ffe6; /* Light green */
+            color: #00796b; /* Dark green */
+            border: 1px solid #00796b;
+        }
+        .geolocation-message.error {
+            background-color: #ffe6e6; /* Light red */
+            color: #cc0000; /* Dark red */
+            border: 1px solid #cc0000;
+        }
+        .geolocation-message.loading {
+            background-color: #e0f2f7; /* Light blue */
+            color: #0079c2; /* Dark blue */
+            border: 1px solid #0079c2;
+        }
     </style>
 </head>
 <body>
@@ -1093,6 +1032,7 @@
                 <div class="step-title" id="stepTitle"></div>
                 <div class="step-desc" id="stepDesc"></div>
                 <div id="stepInputArea"></div>
+                <div id="geolocationMessage" class="geolocation-message" style="display:none;"></div>
                 <button type="button" class="step-btn" id="nextBtn">Next</button>
             </form>
             <div class="success-message" id="successMessage" style="display:none;">
@@ -1156,60 +1096,6 @@
             </div>
         </section>
 
-        <!-- Customer Comments Section -->
-        <section id="customer-comments-section" class="customer-comments-section">
-            <h2 class="comments-title">What Our Customers Say</h2>
-            <div class="comments-list">
-                <div class="comment-card">
-                    <div class="comment-avatar" style="background:#38e8ff;">C</div>
-                    <div>
-                        <div class="comment-name">Chinedu O.</div>
-                        <div class="comment-stars">★★★★★</div>
-                        <div class="comment-text">Fast and reliable! The driver was courteous and the car was clean. Highly recommended.</div>
-                    </div>
-                </div>
-                <div class="comment-card">
-                    <div class="comment-avatar" style="background:#6366f1;">A</div>
-                    <div>
-                        <div class="comment-name">Aisha B.</div>
-                        <div class="comment-stars">★★★★☆</div>
-                        <div class="comment-text">Booking was easy and the fare was fair. Will use Ride Now again!</div>
-                    </div>
-                </div>
-                <div class="comment-card">
-                    <div class="comment-avatar" style="background:#00bcd4;">E</div>
-                    <div>
-                        <div class="comment-name">Emeka N.</div>
-                        <div class="comment-stars">★★★★★</div>
-                        <div class="comment-text">Great service and prompt support. My go-to for airport transfers.</div>
-                    </div>
-                </div>
-                <div class="comment-card">
-                    <div class="comment-avatar" style="background:#ffb300;">F</div>
-                    <div>
-                        <div class="comment-name">Fatima S.</div>
-                        <div class="comment-stars">★★★★★</div>
-                        <div class="comment-text">Very safe and comfortable ride for my kids' school runs. Thank you!</div>
-                    </div>
-                </div>
-                <div class="comment-card">
-                    <div class="comment-avatar" style="background:#009688;">T</div>
-                    <div>
-                        <div class="comment-name">Tunde A.</div>
-                        <div class="comment-stars">★★★★☆</div>
-                        <div class="comment-text">Driver arrived on time and the app is easy to use. Highly recommended!</div>
-                    </div>
-                </div>
-                <div class="comment-card">
-                    <div class="comment-avatar" style="background:#e91e63;">S</div>
-                    <div>
-                        <div class="comment-name">Sade K.</div>
-                        <div class="comment-stars">★★★★★</div>
-                        <div class="comment-text">Excellent customer support and very clean vehicles. Will book again!</div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <section id="about-section-main" class="about-section">
             <h2 class="about-title">About Us</h2>
@@ -1237,7 +1123,146 @@
             </div>
         </section>
 
-        
+        <!-- Customer Reviews Section - Re-added -->
+        <section id="customer-reviews-section" class="reviews-section">
+            <h2 class="reviews-title">What Our Customers Say</h2>
+            <div class="reviews-grid">
+                <!-- Customer Comment Card 1 -->
+                <div class="review-card border-blue-500">
+                    <!-- Avatar for John Doe -->
+                    <div class="review-avatar bg-blue-200 text-blue-800">
+                        JD
+                    </div>
+                    <div class="review-content">
+                        <p class="review-name text-blue-700">- John Doe, Lagos</p>
+                        <!-- Star Rating for John Doe (5 stars) -->
+                        <div class="review-stars">
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                        </div>
+                        <p class="review-text">
+                            "Fantastic ride! The driver was friendly and punctual, and the car was spotless. A truly comfortable and stress-free journey. Highly recommend!"
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Customer Comment Card 2 -->
+                <div class="review-card border-green-500">
+                    <!-- Avatar for Jane Smith -->
+                    <div class="review-avatar bg-green-200 text-green-800">
+                        JS
+                    </div>
+                    <div class="review-content">
+                        <p class="review-name text-green-700">- Jane Smith, Abuja</p>
+                        <!-- Star Rating for Jane Smith (5 stars) -->
+                        <div class="review-stars">
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                        </div>
+                        <p class="review-text">
+                            "Booking was seamless, and my ride arrived exactly on time. Excellent service from start to finish. Couldn't ask for a better experience!"
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Customer Comment Card 3 -->
+                <div class="review-card border-blue-500">
+                    <!-- Avatar for Emeka Obi -->
+                    <div class="review-avatar bg-blue-200 text-blue-800">
+                        EO
+                    </div>
+                    <div class="review-content">
+                        <p class="review-name text-blue-700">- Emeka Obi, Port Harcourt</p>
+                        <!-- Star Rating for Emeka Obi (5 stars) -->
+                        <div class="review-stars">
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                        </div>
+                        <p class="review-text">
+                            "The app is incredibly easy to use, and finding a ride is always quick. My driver was very polite and knew the best routes. Five stars!"
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Customer Comment Card 4 -->
+                <div class="review-card border-green-500">
+                    <!-- Avatar for Amina Yusuf -->
+                    <div class="review-avatar bg-green-200 text-green-800">
+                        AY
+                    </div>
+                    <div class="review-content">
+                        <p class="review-name text-green-700">- Amina Yusuf, Kano</p>
+                        <!-- Star Rating for Amina Yusuf (4 stars) -->
+                        <div class="review-stars">
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <!-- Empty star for 4-star rating -->
+                            <svg class="star-icon star-animated star-empty" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                        </div>
+                        <p class="review-text">
+                            "Reliable, safe, and affordable. This ride service has become my go-to for all my travel needs. Always a pleasure!"
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Customer Comment Card 5 -->
+                <div class="review-card border-blue-500">
+                    <!-- Avatar for Tunde Alabi -->
+                    <div class="review-avatar bg-blue-200 text-blue-800">
+                        TA
+                    </div>
+                    <div class="review-content">
+                        <p class="review-name text-blue-700">- Tunde Alabi, Ibadan</p>
+                        <!-- Star Rating for Tunde Alabi (5 stars) -->
+                        <div class="review-stars">
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                        </div>
+                        <p class="review-text">
+                            "Absolutely brilliant! My driver navigated through traffic expertly, getting me to my destination well ahead of time. Professional and efficient."
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Customer Comment Card 6 -->
+                <div class="review-card border-green-500">
+                    <!-- Avatar for Fatima Bello -->
+                    <div class="review-avatar bg-green-200 text-green-800">
+                        FB
+                    </div>
+                    <div class="review-content">
+                        <p class="review-name text-green-700">- Fatima Bello, Kaduna</p>
+                        <!-- Star Rating for Fatima Bello (5 stars) -->
+                        <div class="review-stars">
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                        </div>
+                        <p class="review-text">
+                            "From booking to drop-off, every step was smooth. The driver was courteous, and the car was comfortable. A top-notch service I highly recommend!"
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
         <!-- Modal for Footer Info -->
         <div id="footerInfoModal" class="footer-info-modal">
             <div class="footer-info-modal-content">
@@ -1281,6 +1306,7 @@
                     <li><a href="#dashboard-section">Dashboard</a></li>
                     <li><a href="#services-section-main">Services</a></li>
                     <li><a href="#about-section-main">About Us</a></li>
+                    <li><a href="#customer-reviews-section">Reviews</a></li> <!-- Re-added Reviews Link to footer for visibility -->
                     <li><a href="#book-ride-section">For drivers</a></li>
                     <li><a href="#" class="footer-info-link" data-info="faq">FAQs</a></li>
                     <li><a href="#" class="footer-info-link" data-info="terms">Terms &amp; Conditions</a></li>
@@ -1312,7 +1338,7 @@
                             >
                             <div id="pickup-suggestions" class="autocomplete-suggestions"></div>
                         </div>
-                        <button type="button" id="currentLocationBtn" class="step-btn" style="margin-top:0.5rem; background: #4CAF50; color: #fff;">Use Current Location</button>`
+                        <button type="button" id="currentLocationBtn" class="step-btn" style="margin-top:0.5rem; background: #00796b; color: #fff;">Use Current Location</button>`
             },
             {
                 title: "Step 2: Enter Dropoff Location",
@@ -1376,6 +1402,17 @@
         const receiptContent = document.getElementById('receiptContent');
         const showReceiptBtn = document.getElementById('showReceiptBtn');
         const closeReceiptBtn = document.getElementById('closeReceiptBtn');
+        const geolocationMessageDiv = document.getElementById('geolocationMessage'); // Get the message div
+
+        // Function to display geolocation messages
+        function showGeolocationMessage(message, type) {
+            geolocationMessageDiv.textContent = message;
+            geolocationMessageDiv.className = `geolocation-message ${type}`;
+            geolocationMessageDiv.style.display = 'block';
+            setTimeout(() => {
+                geolocationMessageDiv.style.display = 'none';
+            }, 3000); // Hide after 3 seconds
+        }
 
         // Function to update the step content
         function updateStep() {
@@ -1389,12 +1426,18 @@
                 // Add event listeners for autocomplete if inputs are present
                 if (currentStep === 0) {
                     setupAutocomplete('pickup', 'pickup-suggestions');
-                    document.getElementById('currentLocationBtn').addEventListener('click', getCurrentLocation);
+                    // Ensure the event listener for currentLocationBtn is added after the button is in the DOM
+                    const currentLocationBtn = document.getElementById('currentLocationBtn');
+                    if (currentLocationBtn) {
+                        currentLocationBtn.addEventListener('click', getCurrentLocation);
+                    }
                 } else if (currentStep === 1) {
                     setupAutocomplete('dropoff', 'dropoff-suggestions');
                 } else if (currentStep === steps.length - 1) {
                     displayBookingSummary();
                 }
+                // Clear any previous geolocation messages when step changes
+                geolocationMessageDiv.style.display = 'none';
             } else {
                 showSuccess();
             }
@@ -1403,8 +1446,10 @@
         // Function to handle next step
         nextBtn.addEventListener('click', () => {
             const currentInput = stepInputArea.querySelector('.step-input, .step-select');
-            if (currentInput && !currentInput.value) {
-                alert('Please fill in the required field before proceeding.');
+            // Check if currentInput exists before accessing its value property
+            if (currentInput && currentInput.hasAttribute('required') && !currentInput.value) {
+                // Using console.error instead of alert as alerts are discouraged in Canvas
+                console.error('Please fill in the required field before proceeding.');
                 return;
             }
 
@@ -1570,6 +1615,7 @@
 
         // Get current location and fill in the pickup address
         function getCurrentLocation() {
+            showGeolocationMessage('Getting your current location...', 'loading');
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
                     const lat = position.coords.latitude;
@@ -1581,14 +1627,34 @@
                         .then(data => {
                             document.getElementById('pickup').value = data.display_name;
                             document.getElementById('pickup-suggestions').style.display = 'none'; // Hide suggestions
+                            showGeolocationMessage('Location successfully retrieved!', 'success');
                         })
-                        .catch(error => console.error('Error fetching address:', error));
-                }, error => {
-                    console.error('Error getting location:', error);
-                    alert('Unable to retrieve your location. Please ensure location services are enabled.');
+                        .catch(error => {
+                            console.error('Error fetching address from Nominatim:', error);
+                            showGeolocationMessage('Failed to get address. Please try again or enter manually.', 'error');
+                        });
+                }, (error) => {
+                    let errorMessage = 'Unable to retrieve your location.';
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage = 'Location access denied. Please enable location services in your browser settings.';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage = 'Location information is unavailable.';
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage = 'The request to get user location timed out.';
+                            break;
+                        case error.UNKNOWN_ERROR:
+                            errorMessage = 'An unknown error occurred while getting location.';
+                            break;
+                    }
+                    console.error('Error getting location:', errorMessage, error);
+                    showGeolocationMessage(errorMessage, 'error');
                 });
             } else {
-                alert('Geolocation is not supported by this browser.');
+                showGeolocationMessage('Geolocation is not supported by this browser.', 'error');
+                console.error('Geolocation is not supported by this browser.');
             }
         }
 
@@ -1698,15 +1764,17 @@ window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; 
 </script>
 
 <script>
-// Redirect to login.html when Login button is clicked
-document.getElementById('loginBtn').addEventListener('click', function() {
-    window.location.href = "login.html";
+// Prevent navigation for login/signup buttons and log a message instead
+document.getElementById('loginBtn').addEventListener('click', function(e) {
+    e.preventDefault(); // Prevent default navigation
+    console.log("Login button clicked. (Navigation to login.html prevented as it's not part of this single HTML file)");
+    // In a full application, you would show a login modal or navigate to a proper login page.
 });
-</script>
-<script>
-// Redirect to login.html when signup button is clicked
-document.getElementById('signupBtn').addEventListener('click', function() {
-    window.location.href = "login.html";
+
+document.getElementById('signupBtn').addEventListener('click', function(e) {
+    e.preventDefault(); // Prevent default navigation
+    console.log("Signup button clicked. (Navigation to login.html prevented as it's not part of this single HTML file)");
+    // In a full application, you would show a signup modal or navigate to a proper signup page.
 });
 </script>
 </body>
