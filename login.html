@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login - Ride Now</title>
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #4f8cff 0%, #38e8ff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container {
+            background: #fff;
+            padding: 2.5rem 2rem 2rem 2rem;
+            border-radius: 1.2rem;
+            box-shadow: 0 4px 32px rgba(56,232,255,0.13);
+            max-width: 370px;
+            width: 100%;
+            text-align: center;
+            animation: fadeIn 0.7s;
+            margin: 2rem 0;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(40px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .login-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 0.5rem;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 2px 8px rgba(56,232,255,0.10);
+            object-fit: contain;
+            background: #fff;
+        }
+        .login-title {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 0.7rem;
+            letter-spacing: 0.5px;
+        }
+        .login-desc {
+            color: #444;
+            font-size: 1.05rem;
+            margin-bottom: 1.5rem;
+        }
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.1rem;
+        }
+        .login-input {
+            padding: 0.7rem 1rem;
+            border: 1px solid #cfd8dc;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background: #f8fafc;
+            transition: border 0.2s, box-shadow 0.2s;
+        }
+        .login-input:focus {
+            border-color: #38e8ff;
+            outline: none;
+            box-shadow: 0 2px 8px rgba(56,232,255,0.13);
+        }
+        .login-btn {
+            padding: 0.7rem 0;
+            background: linear-gradient(90deg, #4f8cff 60%, #38e8ff 100%);
+            color: #fff;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(79,140,255,0.08);
+            margin-top: 0.5rem;
+        }
+        .login-btn:hover {
+            background: linear-gradient(90deg, #2563eb 60%, #38e8ff 100%);
+            box-shadow: 0 4px 16px rgba(56,232,255,0.13);
+        }
+        .login-links {
+            margin-top: 1.2rem;
+            font-size: 0.98rem;
+            color: #2563eb;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+        .login-links a {
+            color: #2563eb;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .login-links a:hover {
+            color: #38e8ff;
+            text-decoration: underline;
+        }
+        #loginMessage, #signupMessage {
+            min-height: 1.2em;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 0;
+                align-items: flex-start;
+                justify-content: flex-start;
+                min-height: 100vh;
+            }
+            .login-container {
+                max-width: 98vw;
+                width: 98vw;
+                padding: 1.2rem 0.7rem 1.2rem 0.7rem;
+                border-radius: 0.7rem;
+                margin: 1.2rem auto;
+            }
+            .login-title {
+                font-size: 1.2rem;
+            }
+            .login-logo {
+                width: 48px;
+                height: 48px;
+            }
+            .login-links {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.3rem;
+                font-size: 0.95rem;
+            }
+        }
+
+
+        /* Forgot Password Modal Styles */
+        #forgotPasswordModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(35, 41, 70, 0.65);
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        #forgotPasswordModal > div {
+            background: #fff;
+            border-radius: 1rem;
+            max-width: 340px;
+            width: 90vw;
+            padding: 2rem 1.2rem;
+            box-shadow: 0 4px 24px rgba(56, 232, 255, 0.13);
+            text-align: center;
+            position: relative;
+        }
+        #closeForgotModal {
+            position: absolute;
+            top: 10px;
+            right: 18px;
+            font-size: 1.7rem;
+            color: #3a506b;
+            cursor: pointer;
+        }
+        #forgotPasswordModal .modal-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+        #forgotPasswordModal .modal-desc {
+            color: #444;
+            font-size: 1rem;
+            margin-bottom: 1.2rem;
+        }
+        #forgotPasswordModal #forgotMsg {
+            color: #00796b;
+            margin-top: 1rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container" id="loginSection">
+        <img src="freepik-modern-gradient-silver-car-service-logo-20250613034838PibO[1].png" alt="Ride Now Logo" class="login-logo">
+        <div class="login-title">Welcome Back</div>
+        <div class="login-desc">Sign in to your Ride Now account</div>
+        <form class="login-form" id="loginForm" autocomplete="off">
+            <input type="email" class="login-input" id="email" placeholder="Email address" required>
+            <input type="password" class="login-input" id="password" placeholder="Password" required>
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+        <div class="login-links">
+            <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+            <a href="#" id="showSignupLink">Create Account</a>
+        </div>
+        <div id="loginMessage" style="color:#e53935;margin-top:1rem;display:none;"></div>
+    </div>
+
+    <!-- Signup Section (hidden by default) -->
+    <div class="login-container" id="signupSection" style="display:none;">
+        <img src="freepik-modern-gradient-silver-car-service-logo-20250613034838PibO[1].png" alt="Ride Now Logo" class="login-logo">
+        <div class="login-title">Create Account</div>
+        <div class="login-desc">Sign up to start booking rides with Ride Now</div>
+        <form class="login-form" id="signupForm" autocomplete="off">
+            <input type="text" class="login-input" id="signupName" placeholder="Full Name" required>
+            <input type="email" class="login-input" id="signupEmail" placeholder="Email address" required>
+            <input type="tel" class="login-input" id="signupPhone" placeholder="Phone Number" required>
+            <input type="password" class="login-input" id="signupPassword" placeholder="Password" required>
+            <input type="password" class="login-input" id="signupConfirmPassword" placeholder="Confirm Password" required>
+            <button type="submit" class="login-btn">Sign Up</button>
+        </form>
+        <div class="login-links">
+            <a href="#" id="showLoginLink">Already have an account? Login</a>
+        </div>
+        <div id="signupMessage" style="color:#e53935;margin-top:1rem;display:none;"></div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal">
+        <div>
+            <span id="closeForgotModal">&times;</span>
+            <div class="modal-title">Forgot Password</div>
+            <div class="modal-desc">Enter your email address and we'll send you a password reset link.</div>
+            <form id="forgotForm">
+                <input type="email" id="forgotEmail" class="login-input" placeholder="Email address" required style="width:90%; margin-bottom:1rem;">
+                <button type="submit" class="login-btn" style="width:100%;">Send Reset Link</button>
+            </form>
+            <div id="forgotMsg" style="color:#00796b; margin-top:1rem; display:none;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Store user data in localStorage for demo purposes
+        function saveUser(user) {
+            localStorage.setItem('rideNowUser', JSON.stringify(user));
+        }
+        function getUser() {
+            return JSON.parse(localStorage.getItem('rideNowUser') || 'null');
+        }
+
+        // Login logic
+        document.getElementById('loginForm').onsubmit = function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const msg = document.getElementById('loginMessage');
+            const user = getUser();
+
+            if (user && user.email === email && user.password === password) {
+                msg.style.display = "none";
+                window.location.href = "index.html";
+            } else {
+                msg.textContent = "Invalid email or password.";
+                msg.style.display = "block";
+            }
+        };
+
+        // Forgot Password modal logic
+        const forgotModal = document.getElementById('forgotPasswordModal');
+        const closeForgotModal = document.getElementById('closeForgotModal');
+        const forgotForm = document.getElementById('forgotForm');
+        const forgotMsg = document.getElementById('forgotMsg');
+
+        document.getElementById('forgotPasswordLink').onclick = function(e) {
+            e.preventDefault();
+            forgotModal.style.display = "flex";
+            forgotMsg.style.display = "none";
+            forgotForm.reset();
+        };
+        closeForgotModal.onclick = function() {
+            forgotModal.style.display = "none";
+        };
+        window.onclick = function(e) {
+            if (e.target === forgotModal) forgotModal.style.display = "none";
+        };
+        forgotForm.onsubmit = function(e) {
+            e.preventDefault();
+            const email = document.getElementById('forgotEmail').value.trim();
+            forgotMsg.textContent = " A password reset link has been sent.";
+            forgotMsg.style.display = "block";
+        };
+
+        // Show signup form
+        document.getElementById('showSignupLink').onclick = function(e) {
+            e.preventDefault();
+            document.getElementById('loginSection').style.display = "none";
+            document.getElementById('signupSection').style.display = "block";
+            document.getElementById('loginMessage').style.display = "none";
+        };
+
+        // Show login form from signup
+        document.getElementById('showLoginLink').onclick = function(e) {
+            e.preventDefault();
+            document.getElementById('signupSection').style.display = "none";
+            document.getElementById('loginSection').style.display = "block";
+            document.getElementById('signupMessage').style.display = "none";
+        };
+
+        // Signup logic
+        document.getElementById('signupForm').onsubmit = function(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const phone = document.getElementById('signupPhone').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            const msg = document.getElementById('signupMessage');
+
+            if (!name || !email || !phone || !password || !confirmPassword) {
+                msg.textContent = "Please fill in all fields.";
+                msg.style.display = "block";
+                msg.style.color = "#e53935";
+                return;
+            }
+            if (password.length < 6) {
+                msg.textContent = "Password must be at least 6 characters.";
+                msg.style.display = "block";
+                msg.style.color = "#e53935";
+                return;
+            }
+            if (password !== confirmPassword) {
+                msg.textContent = "Passwords do not match.";
+                msg.style.display = "block";
+                msg.style.color = "#e53935";
+                return;
+            }
+            // Save user to localStorage
+            localStorage.setItem('rideNowUser', JSON.stringify({ name, email, phone, password }));
+            msg.style.color = "#00796b";
+            msg.textContent = "Signup successful! Logging you in...";
+            msg.style.display = "block";
+            setTimeout(() => {
+                window.location.href = "index.html";
+            }, 1200);
+        };
+    </script>
+</body>
+</html>
