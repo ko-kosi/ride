@@ -24,6 +24,7 @@
             text-align: center;
             animation: fadeIn 0.7s;
             margin: 2rem 0;
+            box-sizing: border-box; /* Ensures padding is included in width */
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(40px);}
@@ -62,6 +63,8 @@
             font-size: 1rem;
             background: #f8fafc;
             transition: border 0.2s, box-shadow 0.2s;
+            width: 100%; /* Ensure input takes full width */
+            box-sizing: border-box; /* Ensures padding is included in width */
         }
         .login-input:focus {
             border-color: #38e8ff;
@@ -105,6 +108,21 @@
         }
         #loginMessage, #signupMessage {
             min-height: 1.2em;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem;
+            border-radius: 0.4rem;
+        }
+        #loginMessage.error, #signupMessage.error {
+            color:#e53935;
+            background-color: #ffe0e0;
+            border: 1px solid #e53935;
+        }
+        #loginMessage.success, #signupMessage.success {
+            color:#00796b;
+            background-color: #e6ffe6;
+            border: 1px solid #00796b;
         }
         @media (max-width: 600px) {
             body {
@@ -134,7 +152,6 @@
                 font-size: 0.95rem;
             }
         }
-
 
         /* Forgot Password Modal Styles */
         #forgotPasswordModal {
@@ -187,7 +204,7 @@
 </head>
 <body>
     <div class="login-container" id="loginSection">
-        <img src="freepik-modern-gradient-silver-car-service-logo-20250613034838PibO[1].png" alt="Ride Now Logo" class="login-logo">
+        <img src="https://placehold.co/60x60/6366f1/ffffff?text=RN" alt="Ride Now Logo" class="login-logo">
         <div class="login-title">Welcome Back</div>
         <div class="login-desc">Sign in to your Ride Now account</div>
         <form class="login-form" id="loginForm" autocomplete="off">
@@ -199,12 +216,12 @@
             <a href="#" id="forgotPasswordLink">Forgot Password?</a>
             <a href="#" id="showSignupLink">Create Account</a>
         </div>
-        <div id="loginMessage" style="color:#e53935;margin-top:1rem;display:none;"></div>
+        <div id="loginMessage" style="display:none;"></div>
     </div>
 
     <!-- Signup Section (hidden by default) -->
     <div class="login-container" id="signupSection" style="display:none;">
-        <img src="freepik-modern-gradient-silver-car-service-logo-20250613034838PibO[1].png" alt="Ride Now Logo" class="login-logo">
+        <img src="https://placehold.co/60x60/6366f1/ffffff?text=RN" alt="Ride Now Logo" class="login-logo">
         <div class="login-title">Create Account</div>
         <div class="login-desc">Sign up to start booking rides with Ride Now</div>
         <form class="login-form" id="signupForm" autocomplete="off">
@@ -218,7 +235,7 @@
         <div class="login-links">
             <a href="#" id="showLoginLink">Already have an account? Login</a>
         </div>
-        <div id="signupMessage" style="color:#e53935;margin-top:1rem;display:none;"></div>
+        <div id="signupMessage" style="display:none;"></div>
     </div>
 
     <!-- Forgot Password Modal -->
@@ -228,21 +245,56 @@
             <div class="modal-title">Forgot Password</div>
             <div class="modal-desc">Enter your email address and we'll send you a password reset link.</div>
             <form id="forgotForm">
-                <input type="email" id="forgotEmail" class="login-input" placeholder="Email address" required style="width:90%; margin-bottom:1rem;">
-                <button type="submit" class="login-btn" style="width:100%;">Send Reset Link</button>
+                <input type="email" id="forgotEmail" class="login-input" placeholder="Email address" required>
+                <button type="submit" class="login-btn">Send Reset Link</button>
             </form>
-            <div id="forgotMsg" style="color:#00796b; margin-top:1rem; display:none;"></div>
+            <div id="forgotMsg" style="display:none;"></div>
         </div>
     </div>
 
     <script>
-        // Store user data in localStorage for demo purposes
+        // Use a consistent localStorage key for user data
+        const USER_STORAGE_KEY = 'loggedInAppUser'; // Stores an object with {email, name, password, type: 'user'}
+
+        // Helper to show messages
+        function showMessage(element, message, type) {
+            element.textContent = message;
+            element.className = type === 'success' ? 'success' : 'error';
+            element.style.display = 'block';
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 3000);
+        }
+
+        // Retrieve user from localStorage
+        function getStoredUser() {
+            const userData = localStorage.getItem(USER_STORAGE_KEY);
+            return userData ? JSON.parse(userData) : null;
+        }
+
+        // Store user in localStorage
         function saveUser(user) {
-            localStorage.setItem('rideNowUser', JSON.stringify(user));
+            localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
         }
-        function getUser() {
-            return JSON.parse(localStorage.getItem('rideNowUser') || 'null');
+
+        // Check if a user is currently logged in and redirect if necessary
+        function checkLoginAndRedirect() {
+            const user = getStoredUser();
+            // Check if user exists and is of type 'user' (to differentiate from potential 'driver' logins)
+            if (user && user.type === 'user') {
+                try {
+                    // Redirect to the dashboard if already logged in
+                    window.location.assign('dashboard.html');
+                } catch (e) {
+                    console.error("Failed to redirect to dashboard.html:", e);
+                    // Fallback alert for environments where direct file access is restricted
+                    alert("You are already logged in. Please open 'dashboard.html' manually if redirection fails.");
+                }
+            }
         }
+
+        // Run check on page load
+        document.addEventListener('DOMContentLoaded', checkLoginAndRedirect);
 
         // Login logic
         document.getElementById('loginForm').onsubmit = function(e) {
@@ -250,14 +302,22 @@
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value.trim();
             const msg = document.getElementById('loginMessage');
-            const user = getUser();
 
-            if (user && user.email === email && user.password === password) {
-                msg.style.display = "none";
-                window.location.href = "index.html";
+            const storedUser = getStoredUser(); // Get any stored user
+
+            if (storedUser && storedUser.email === email && storedUser.password === password && storedUser.type === 'user') {
+                showMessage(msg, "Login successful! Redirecting...", 'success');
+                // Use setTimeout to allow message to show before redirecting
+                setTimeout(() => {
+                    try {
+                        window.location.assign('dashboard.html');
+                    } catch (e) {
+                        console.error("Failed to redirect to dashboard.html after login:", e);
+                        alert("Login successful, but could not redirect to dashboard. Please open 'dashboard.html' manually. (Error: " + e.message + ")");
+                    }
+                }, 500); // Short delay
             } else {
-                msg.textContent = "Invalid email or password.";
-                msg.style.display = "block";
+                showMessage(msg, "Invalid email or password, or account not found.", 'error');
             }
         };
 
@@ -282,8 +342,9 @@
         forgotForm.onsubmit = function(e) {
             e.preventDefault();
             const email = document.getElementById('forgotEmail').value.trim();
-            forgotMsg.textContent = " A password reset link has been sent.";
-            forgotMsg.style.display = "block";
+            // In a real app, you'd send an API request here.
+            // For this demo, just simulate success.
+            showMessage(forgotMsg, "A password reset link has been sent to " + email + ".", 'success');
         };
 
         // Show signup form
@@ -313,31 +374,39 @@
             const msg = document.getElementById('signupMessage');
 
             if (!name || !email || !phone || !password || !confirmPassword) {
-                msg.textContent = "Please fill in all fields.";
-                msg.style.display = "block";
-                msg.style.color = "#e53935";
+                showMessage(msg, "Please fill in all fields.", 'error');
                 return;
             }
             if (password.length < 6) {
-                msg.textContent = "Password must be at least 6 characters.";
-                msg.style.display = "block";
-                msg.style.color = "#e53935";
+                showMessage(msg, "Password must be at least 6 characters.", 'error');
                 return;
             }
             if (password !== confirmPassword) {
-                msg.textContent = "Passwords do not match.";
-                msg.style.display = "block";
-                msg.style.color = "#e53935";
+                showMessage(msg, "Passwords do not match.", 'error');
                 return;
             }
-            // Save user to localStorage
-            localStorage.setItem('rideNowUser', JSON.stringify({ name, email, phone, password }));
-            msg.style.color = "#00796b";
-            msg.textContent = "Signup successful! Logging you in...";
-            msg.style.display = "block";
+
+            // Check if user already exists
+            const existingUser = getStoredUser();
+            if (existingUser && existingUser.email === email && existingUser.type === 'user') {
+                showMessage(msg, "An account with this email already exists. Please login.", 'error');
+                return;
+            }
+
+            // Save new user to localStorage
+            const newUser = { name, email, phone, password, type: 'user' };
+            saveUser(newUser);
+
+            showMessage(msg, "Signup successful! Logging you in...", 'success');
+            // Use setTimeout to allow message to show before redirecting
             setTimeout(() => {
-                window.location.href = "index.html";
-            }, 1200);
+                try {
+                    window.location.assign('dashboard.html');
+                } catch (e) {
+                    console.error("Failed to redirect to dashboard.html after signup:", e);
+                    alert("Signup successful, but could not redirect to dashboard. Please open 'dashboard.html' manually. (Error: " + e.message + ")");
+                }
+            }, 500); // Short delay
         };
     </script>
 </body>
