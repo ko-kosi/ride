@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Login / Signup - Ride Now</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Updated to a mature, soft blue-gray gradient */
+            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #1a202c;
+        }
+        .auth-container {
+            background-color: #fff;
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #e0e7ff; /* Light blue-gray border */
+        }
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            /* Updated accent bubble to complement new background */
+            background: radial-gradient(circle, #a5b4fc 0%, #e0e7ff 80%);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+        .auth-toggle {
+            display: flex;
+            margin-bottom: 2rem;
+            border-radius: 0.75rem;
+            background-color: #e2e8f0; /* Light gray background for toggle */
+            overflow: hidden;
+        }
+        .auth-toggle-btn {
+            flex: 1;
+            padding: 0.75rem 0;
+            cursor: pointer;
+            font-weight: 600;
+            color: #4a5568;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 1.1rem;
+        }
+        .auth-toggle-btn.active {
+            /* Updated active toggle button color */
+            background-color: #4c6ef5; /* Professional blue */
+            color: white;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .auth-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            /* Updated title color */
+            color: #4c6ef5; /* Professional blue */
+        }
+        .form-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 0.95rem;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #cbd5e0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            background-color: #f7fafc;
+            box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+        }
+        .form-group input:focus {
+            outline: none;
+            /* Updated input focus style */
+            border-color: #4c6ef5; /* Professional blue */
+            box-shadow: 0 0 0 3px rgba(76, 110, 245, 0.2);
+        }
+        .auth-submit-btn {
+            width: 100%;
+            padding: 1rem;
+            /* Updated submit button color */
+            background-color: #4c6ef5; /* Professional blue */
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            /* Updated submit button shadow */
+            box-shadow: 0 4px 15px rgba(76, 110, 245, 0.4);
+        }
+        .auth-submit-btn:hover {
+            /* Updated submit button hover color */
+            background-color: #3b5bdb; /* Darker blue */
+            transform: translateY(-2px);
+        }
+        .auth-submit-btn:active {
+            transform: translateY(0);
+        }
+        .message-box {
+            background-color: #fefcbf; /* Light yellow */
+            color: #856404; /* Dark yellow */
+            border: 1px solid #ffeeba;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            display: none; /* Hidden by default */
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .message-box.error {
+            background-color: #fef2f2; /* Light red */
+            color: #dc2626; /* Dark red */
+            border-color: #fca5a5;
+        }
+        .message-box.success {
+            background-color: #f0fdf4; /* Light green */
+            color: #166534; /* Dark green */
+            border-color: #bbf7d0;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-toggle">
+            <div id="loginTab" class="auth-toggle-btn active">Login</div>
+            <div id="signupTab" class="auth-toggle-btn">Sign Up</div>
+        </div>
+
+        <h2 class="auth-title" id="authFormTitle">Driver Login</h2>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="********" required>
+            </div>
+            <button type="submit" class="auth-submit-btn">Login</button>
+        </form>
+
+        <form id="signupForm" style="display:none;">
+            <div class="form-group">
+                <label for="signupName">Full Name</label>
+                <input type="text" id="signupName" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+                <label for="signupEmail">Email</label>
+                <input type="email" id="signupEmail" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" placeholder="********" required>
+            </div>
+            <div class="form-group">
+                <label for="signupConfirmPassword">Confirm Password</label>
+                <input type="password" id="signupConfirmPassword" placeholder="********" required>
+            </div>
+            <button type="submit" class="auth-submit-btn">Sign Up</button>
+        </form>
+
+        <div id="messageBox" class="message-box"></div>
+    </div>
+
+    <script>
+        const loginTab = document.getElementById('loginTab');
+        const signupTab = document.getElementById('signupTab');
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const authFormTitle = document.getElementById('authFormTitle');
+        const messageBox = document.getElementById('messageBox');
+
+        // Function to show messages
+        function showMessage(message, type = 'info') {
+            messageBox.textContent = message;
+            messageBox.className = `message-box ${type}`; // Apply type class for styling
+            messageBox.style.display = 'block';
+            setTimeout(() => {
+                messageBox.style.display = 'none'; // Auto-hide messages after 3 seconds
+            }, 3000);
+        }
+
+        // --- User Data Storage (Simulated Backend) ---
+        // In a real app, this would be handled by a secure backend and database.
+        // For this client-side demo, we use localStorage.
+        function getStoredUsers() {
+            const usersJson = localStorage.getItem('driverUsers');
+            return usersJson ? JSON.parse(usersJson) : {};
+        }
+
+        function saveUser(email, password, fullName) {
+            const users = getStoredUsers();
+            users[email] = { password: password, fullName: fullName }; // Store plain password for demo
+            localStorage.setItem('driverUsers', JSON.stringify(users));
+        }
+
+        function getUser(email) {
+            const users = getStoredUsers();
+            return users[email];
+        }
+
+        // Simulate a "logged in" state
+        function setLoggedInUser(email) {
+            localStorage.setItem('loggedInDriver', email);
+        }
+
+        function getLoggedInUser() {
+            return localStorage.getItem('loggedInDriver');
+        }
+
+        function clearLoggedInUser() {
+            localStorage.removeItem('loggedInDriver');
+        }
+        // --- End User Data Storage ---
+
+
+        // Tab switching logic
+        loginTab.addEventListener('click', () => {
+            loginTab.classList.add('active');
+            signupTab.classList.remove('active');
+            loginForm.style.display = 'block';
+            signupForm.style.display = 'none';
+            authFormTitle.textContent = 'Driver Login';
+            messageBox.style.display = 'none'; // Clear message on tab switch
+        });
+
+        signupTab.addEventListener('click', () => {
+            signupTab.classList.add('active');
+            loginTab.classList.remove('active');
+            signupForm.style.display = 'block';
+            loginForm.style.display = 'none';
+            authFormTitle.textContent = 'Driver Sign Up';
+            messageBox.style.display = 'none'; // Clear message on tab switch
+        });
+
+        // Login form submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            const user = getUser(email);
+
+            if (user && user.password === password) {
+                setLoggedInUser(email);
+                showMessage(`Welcome back, ${user.fullName || email}! Redirecting to dashboard...`, 'success');
+                setTimeout(() => {
+                    window.location.href = 'driver_dashboard.html'; // Redirect to dashboard
+                }, 1500); // Wait for message to be seen
+            } else {
+                showMessage('Login failed: Incorrect email or password.', 'error');
+            }
+        });
+
+        // Signup form submission
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const fullName = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match.', 'error');
+                return;
+            }
+
+            if (getUser(email)) {
+                showMessage('Signup failed: An account with this email already exists. Please log in.', 'error');
+                return;
+            }
+
+            saveUser(email, password, fullName);
+            setLoggedInUser(email);
+            showMessage(`Account created and logged in! Welcome, ${fullName}! Redirecting to dashboard...`, 'success');
+            setTimeout(() => {
+                window.location.href = 'driver_dashboard.html'; // Redirect to dashboard
+            }, 1500); // Wait for message to be seen
+        });
+
+        // Optional: Check for logged in user on page load (e.g., for a "Welcome back" message)
+        window.addEventListener('load', () => {
+            const loggedInUserEmail = getLoggedInUser();
+            if (loggedInUserEmail) {
+                const user = getUser(loggedInUserEmail);
+                if (user) {
+                    showMessage(`Welcome back, ${user.fullName || loggedInUserEmail}!`);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
