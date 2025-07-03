@@ -277,24 +277,8 @@
             localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
         }
 
-        // Check if a user is currently logged in and redirect if necessary
-        function checkLoginAndRedirect() {
-            const user = getStoredUser();
-            // Check if user exists and is of type 'user' (to differentiate from potential 'driver' logins)
-            if (user && user.type === 'user') {
-                try {
-                    // Redirect to the dashboard if already logged in
-                    window.location.assign('dashboard.html');
-                } catch (e) {
-                    console.error("Failed to redirect to dashboard.html:", e);
-                    // Fallback alert for environments where direct file access is restricted
-                    alert("You are already logged in. Please open 'dashboard.html' manually if redirection fails.");
-                }
-            }
-        }
-
-        // Run check on page load
-        document.addEventListener('DOMContentLoaded', checkLoginAndRedirect);
+        // Removed checkLoginAndRedirect from DOMContentLoaded
+        // The redirection will now only happen after successful login or signup.
 
         // Login logic
         document.getElementById('loginForm').onsubmit = function(e) {
@@ -302,6 +286,12 @@
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value.trim();
             const msg = document.getElementById('loginMessage');
+
+            // Explicit check for empty fields
+            if (!email || !password) {
+                showMessage(msg, "Please fill in both email and password.", 'error');
+                return; // Stop execution if fields are empty
+            }
 
             const storedUser = getStoredUser(); // Get any stored user
 
