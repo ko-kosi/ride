@@ -1088,6 +1088,187 @@
             color: #0079c2; /* Dark blue */
             border: 1px solid #0079c2;
         }
+
+        /* Login/Signup form specific styles (from previous version) */
+        .login-container {
+            background: #fff;
+            padding: 2.5rem 2rem 2rem 2rem;
+            border-radius: 1.2rem;
+            box-shadow: 0 4px 32px rgba(56,232,255,0.13);
+            max-width: 370px;
+            width: 100%;
+            text-align: center;
+            animation: fadeIn 0.7s;
+            margin: 2rem auto; /* Center it */
+            box-sizing: border-box;
+            display: none; /* Hidden by default */
+        }
+        .login-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 0.5rem;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 2px 8px rgba(56,232,255,0.10);
+            object-fit: contain;
+            background: #fff;
+            display: block; /* Ensure it's a block element for margin auto */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .login-title {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 0.7rem;
+            letter-spacing: 0.5px;
+        }
+        .login-desc {
+            color: #444;
+            font-size: 1.05rem;
+            margin-bottom: 1.5rem;
+        }
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.1rem;
+        }
+        .login-input {
+            padding: 0.7rem 1rem;
+            border: 1px solid #cfd8dc;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background: #f8fafc;
+            transition: border 0.2s, box-shadow 0.2s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .login-input:focus {
+            border-color: #38e8ff;
+            outline: none;
+            box-shadow: 0 2px 8px rgba(56,232,255,0.13);
+        }
+        .login-btn {
+            padding: 0.7rem 0;
+            background: linear-gradient(90deg, #4f8cff 60%, #38e8ff 100%);
+            color: #fff;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(79,140,255,0.08);
+            margin-top: 0.5rem;
+        }
+        .login-btn:hover {
+            background: linear-gradient(90deg, #2563eb 60%, #38e8ff 100%);
+            box-shadow: 0 4px 16px rgba(56,232,255,0.13);
+        }
+        .login-links {
+            margin-top: 1.2rem;
+            font-size: 0.98rem;
+            color: #2563eb;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+        .login-links a {
+            color: #2563eb;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .login-links a:hover {
+            color: #38e8ff;
+            text-decoration: underline;
+        }
+        #loginMessage, #signupMessage {
+            min-height: 1.2em;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem;
+            border-radius: 0.4rem;
+        }
+        #loginMessage.error, #signupMessage.error {
+            color:#e53935;
+            background-color: #ffe0e0;
+            border: 1px solid #e53935;
+        }
+        #loginMessage.success, #signupMessage.success {
+            color:#00796b;
+            background-color: #e6ffe6;
+            border: 1px solid #00796b;
+        }
+        /* Forgot Password Modal Styles */
+        #forgotPasswordModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(35, 41, 70, 0.65);
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        #forgotPasswordModal > div {
+            background: #fff;
+            border-radius: 1rem;
+            max-width: 340px;
+            width: 90vw;
+            padding: 2rem 1.2rem;
+            box-shadow: 0 4px 24px rgba(56, 232, 255, 0.13);
+            text-align: center;
+            position: relative;
+        }
+        #closeForgotModal {
+            position: absolute;
+            top: 10px;
+            right: 18px;
+            font-size: 1.7rem;
+            color: #3a506b;
+            cursor: pointer;
+        }
+        #forgotPasswordModal .modal-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+        #forgotPasswordModal .modal-desc {
+            color: #444;
+            font-size: 1rem;
+            margin-bottom: 1.2rem;
+        }
+        #forgotPasswordModal #forgotMsg {
+            color: #00796b;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        /* Mobile specific adjustments for login/signup forms */
+        @media (max-width: 600px) {
+            .login-container {
+                padding: 1.2rem 0.7rem 1.2rem 0.7rem;
+                border-radius: 0.7rem;
+                margin: 1.2rem auto;
+            }
+            .login-title {
+                font-size: 1.2rem;
+            }
+            .login-logo {
+                width: 48px;
+                height: 48px;
+            }
+            .login-links {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.3rem;
+                font-size: 0.95rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1097,14 +1278,14 @@
         </div>
         <div class="navbar-right">
             <div class="navbar-links">
-                <a href="#dashboard-section" class="active">Dashboard</a>
+                <a href="#book-ride-section" class="active">Book a Ride</a>
                 <a href="#services-section-main">Services</a>
                 <a href="#about-section-main">About Us</a>
-                <a href="#driver-features-section">For drivers</a> <!-- Updated href -->
+                <a href="#driver-features-section">For drivers</a>
             </div>
             <div class="navbar-auth">
-                <button class="btn login" id="loginBtn" onclick="window.location.href='login.html'">Login</button>
-                <button class="btn signup" id="signupBtn" onclick="window.location.href='login.html'">Signup</button>
+                <button class="btn login" id="loginBtn">Login</button>
+                <button class="btn signup" id="signupBtn">Signup</button>
             </div>
             <div class="hamburger" id="hamburgerMenu" aria-label="Open menu" tabindex="0">
                 <span></span>
@@ -1112,305 +1293,358 @@
                 <span></span>
             </div>
             <div class="navbar-dropdown" id="navbarDropdown">
-                <a href="#dashboard-section" class="active">Dashboard</a>
+                <a href="#book-ride-section" class="active">Book a Ride</a>
                 <a href="#services-section-main">Services</a>
                 <a href="#about-section-main">About Us</a>
-                <a href="#driver-features-section">For drivers</a> <!-- Updated href -->
+                <a href="#driver-features-section">For drivers</a>
+                <a href="#" id="dropdownLoginBtn">Login</a>
+                <a href="#" id="dropdownSignupBtn">Signup</a>
             </div>
         </div>
     </nav>
 
-    <main class="main-content">
-        <section id="book-ride-section">
-            <form class="step-container" id="bookingStepsForm" autocomplete="off">
-                <div class="step-title" id="stepTitle"></div>
-                <div class="step-desc" id="stepDesc"></div>
-                <div id="stepInputArea"></div>
-                <div id="geolocationMessage" class="geolocation-message" style="display:none;"></div>
-                <button type="button" class="step-btn" id="nextBtn">Next</button>
+    <!-- Login Section (hidden by default) -->
+    <div class="login-container" id="loginSection">
+        <img src="https://placehold.co/60x60/6366f1/ffffff?text=RN" alt="Ride Now Logo" class="login-logo">
+        <div class="login-title">Welcome Back</div>
+        <div class="login-desc">Sign in to your Ride Now account</div>
+        <form class="login-form" id="loginForm" autocomplete="off">
+            <input type="email" class="login-input" id="email" placeholder="Email address" required>
+            <input type="password" class="login-input" id="password" placeholder="Password" required>
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+        <div class="login-links">
+            <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+            <a href="#" id="showSignupLink">Create Account</a>
+        </div>
+        <div id="loginMessage" style="display:none;"></div>
+    </div>
+
+    <!-- Signup Section (hidden by default) -->
+    <div class="login-container" id="signupSection" style="display:none;">
+        <img src="https://placehold.co/60x60/6366f1/ffffff?text=RN" alt="Ride Now Logo" class="login-logo">
+        <div class="login-title">Create Account</div>
+        <div class="login-desc">Sign up to start booking rides with Ride Now</div>
+        <form class="login-form" id="signupForm" autocomplete="off">
+            <input type="text" class="login-input" id="signupName" placeholder="Full Name" required>
+            <input type="email" class="login-input" id="signupEmail" placeholder="Email address" required>
+            <input type="tel" class="login-input" id="signupPhone" placeholder="Phone Number" required>
+            <input type="password" class="login-input" id="signupPassword" placeholder="Password" required>
+            <input type="password" class="login-input" id="signupConfirmPassword" placeholder="Confirm Password" required>
+            <button type="submit" class="login-btn">Sign Up</button>
+        </form>
+        <div class="login-links">
+            <a href="#" id="showLoginLink">Already have an account? Login</a>
+        </div>
+        <div id="signupMessage" style="display:none;"></div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal">
+        <div>
+            <span id="closeForgotModal">&times;</span>
+            <div class="modal-title">Forgot Password</div>
+            <div class="modal-desc">Enter your email address and we'll send you a password reset link.</div>
+            <form id="forgotForm">
+                <input type="email" id="forgotEmail" class="login-input" placeholder="Email address" required>
+                <button type="submit" class="login-btn">Send Reset Link</button>
             </form>
-            <div class="success-message" id="successMessage" style="display:none;">
-                Booking completed! Thank you for booking your ride.<br><br>
-                <button id="showReceiptBtn" style="margin-top:1rem;padding:0.5rem 1.5rem;border:none;background:#38e8ff;color:#fff;border-radius:0.4rem;font-size:1rem;cursor:pointer;">View Payment Receipt</button>
-            </div>
-        </section>
-
-        <div id="receiptModal">
-            <div class="modal-content">
-                <h2>Payment Receipt</h2>
-                <div id="receiptContent" style="margin-bottom:1.5rem;"></div>
-                <button id="closeReceiptBtn">Close</button>
-            </div>
+            <div id="forgotMsg" style="display:none;"></div>
         </div>
+    </div>
 
+    <!-- Main Dashboard Content (wrapped for easy toggling) -->
+    <div id="mainDashboardContent" style="display:none;">
+        <main class="main-content">
+            <section id="book-ride-section">
+                <form class="step-container" id="bookingStepsForm" autocomplete="off">
+                    <div class="step-title" id="stepTitle"></div>
+                    <div class="step-desc" id="stepDesc"></div>
+                    <div id="stepInputArea"></div>
+                    <div id="geolocationMessage" class="geolocation-message" style="display:none;"></div>
+                    <button type="button" class="step-btn" id="nextBtn">Next</button>
+                </form>
+                <div class="success-message" id="successMessage" style="display:none;">
+                    Booking completed! Thank you for booking your ride.<br><br>
+                    <button id="showReceiptBtn" style="margin-top:1rem;padding:0.5rem 1.5rem;border:none;background:#38e8ff;color:#fff;border-radius:0.4rem;font-size:1rem;cursor:pointer;">View Payment Receipt</button>
+                </div>
+            </section>
 
-        <section id="services-section-main" class="services-section">
-            <h2 class="services-title">Our Services</h2>
-            <div class="services-list">
-                <div class="service-card">
-                    <span class="service-card-icon">🚗</span>
-                    <h3 class="service-card-title">Standard Rides</h3>
-                    <p class="service-card-desc">Affordable and comfortable city rides for your daily commute.</p>
-                </div>
-                <div class="service-card">
-                    <span class="service-card-icon">✨</span>
-                    <h3 class="service-card-title">Premium Rides</h3>
-                    <p class="service-card-desc">Experience executive comfort with our high-end vehicles and professional drivers.</p>
-                </div>
-                <div class="service-card">
-                    <span class="service-card-icon">SUV</span>
-                    <h3 class="service-card-title">SUV Rides</h3>
-                    <p class="service-card-desc">Spacious and safe options for group travel or extra luggage.</p>
-                </div>
-                <div class="service-card">
-                    <span class="service-card-icon">✈️</span>
-                    <h3 class="service-card-title">Airport Transfers</h3>
-                    <p class="service-card-desc">Timely and reliable pickups and drop-offs to and from the airport.</p>
-                </div>
-                <div class="service-card">
-                    <span class="service-card-icon">🛣️</span>
-                    <h3 class="service-card-title">Interstate Travel</h3>
-                    <p class="service-card-desc">Travel across Nigeria comfortably and safely with our long-distance services.</p>
-                </div>
-                <div class="service-card">
-                    <span class="service-card-icon">⏰</span>
-                    <h3 class="service-card-title">Hourly Rentals</h3>
-                    <p class="service-card-desc">Flexible booking options for when you need a car for a few hours.</p>
-                </div>
-                <div class="service-card">
-                    <span class="service-card-icon">💼</span>
-                    <h3 class="service-card-title">Corporate Rides</h3>
-                    <p class="service-card-desc">Dedicated transportation solutions for your business needs and events.</p>
-                </div>
-                <div class="service-card">
-                    <span class="service-card-icon">🏫</span>
-                    <h3 class="service-card-title">School Runs</h3>
-                    <p class="service-card-desc">Safe and reliable transport for your children to and from school.</p>
+            <div id="receiptModal">
+                <div class="modal-content">
+                    <h2>Payment Receipt</h2>
+                    <div id="receiptContent" style="margin-bottom:1.5rem;"></div>
+                    <button id="closeReceiptBtn">Close</button>
                 </div>
             </div>
-        </section>
 
+            <section id="services-section-main" class="services-section">
+                <h2 class="services-title">Our Services</h2>
+                <div class="services-list">
+                    <div class="service-card">
+                        <span class="service-card-icon">🚗</span>
+                        <h3 class="service-card-title">Standard Rides</h3>
+                        <p class="service-card-desc">Affordable and comfortable city rides for your daily commute.</p>
+                    </div>
+                    <div class="service-card">
+                        <span class="service-card-icon">✨</span>
+                        <h3 class="service-card-title">Premium Rides</h3>
+                        <p class="service-card-desc">Experience executive comfort with our high-end vehicles and professional drivers.</p>
+                    </div>
+                    <div class="service-card">
+                        <span class="service-card-icon">SUV</span>
+                        <h3 class="service-card-title">SUV Rides</h3>
+                        <p class="service-card-desc">Spacious and safe options for group travel or extra luggage.</p>
+                    </div>
+                    <div class="service-card">
+                        <span class="service-card-icon">✈️</span>
+                        <h3 class="service-card-title">Airport Transfers</h3>
+                        <p class="service-card-desc">Timely and reliable pickups and drop-offs to and from the airport.</p>
+                    </div>
+                    <div class="service-card">
+                        <span class="service-card-icon">🛣️</span>
+                        <h3 class="service-card-title">Interstate Travel</h3>
+                        <p class="service-card-desc">Travel across Nigeria comfortably and safely with our long-distance services.</p>
+                    </div>
+                    <div class="service-card">
+                        <span class="service-card-icon">⏰</span>
+                        <h3 class="service-card-title">Hourly Rentals</h3>
+                        <p class="service-card-desc">Flexible booking options for when you need a car for a few hours.</p>
+                    </div>
+                    <div class="service-card">
+                        <span class="service-card-icon">💼</span>
+                        <h3 class="service-card-title">Corporate Rides</h3>
+                        <p class="service-card-desc">Dedicated transportation solutions for your business needs and events.</p>
+                    </div>
+                    <div class="service-card">
+                        <span class="service-card-icon">🏫</span>
+                        <h3 class="service-card-title">School Runs</h3>
+                        <p class="service-card-desc">Safe and reliable transport for your children to and from school.</p>
+                    </div>
+                </div>
+            </section>
 
-        <section id="about-section-main" class="about-section">
-            <h2 class="about-title">About Us</h2>
-            <div class="about-content">
-                <p>
-                    <b>Ride Now</b> is Nigeria’s trusted platform for fast, safe, and reliable rides. Our professional drivers and modern vehicles ensure you travel in comfort and style, whether for business, leisure, or daily commutes.
+            <section id="about-section-main" class="about-section">
+                <h2 class="about-title">About Us</h2>
+                <div class="about-content">
+                    <p>
+                        <b>Ride Now</b> is Nigeria’s trusted platform for fast, safe, and reliable rides. Our professional drivers and modern vehicles ensure you travel in comfort and style, whether for business, leisure, or daily commutes.
+                    </p>
+                    <p>
+                        Our mission is to make transportation seamless and enjoyable for everyone in Nigeria. We are committed to providing:
+                    </p>
+                    <ul>
+                        <li>24/7 Customer Support</li>
+                        <li>Clean &amp; Comfortable Cars</li>
+                        <li>Transparent Pricing</li>
+                        <li>Easy Booking Process</li>
+                        <li>Experienced &amp; Vetted Drivers</li>
+                        <li>Coverage in Major Nigerian Cities</li>
+                        <li>Commitment to Safety &amp; Security</li>
+                        <li>Multiple Payment Options</li>
+                        <li>Regular Vehicle Maintenance</li>
+                    </ul>
+                    <p>
+                        Join thousands of happy riders who trust Ride Now every day!
+                    </p>
+                </div>
+            </section>
+
+            <!-- Customer Reviews Section - Re-added -->
+            <section id="customer-reviews-section" class="reviews-section">
+                <h2 class="reviews-title">What Our Customers Say</h2>
+                <div class="reviews-grid">
+                    <!-- Customer Comment Card 1 -->
+                    <div class="review-card border-blue-500">
+                        <!-- Avatar for John Doe -->
+                        <div class="review-avatar bg-blue-200 text-blue-800">
+                            JD
+                        </div>
+                        <div class="review-content">
+                            <p class="review-name text-blue-700">- John Doe, Lagos</p>
+                            <!-- Star Rating for John Doe (5 stars) -->
+                            <div class="review-stars">
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            </div>
+                            <p class="review-text">
+                                "Fantastic ride! The driver was friendly and punctual, and the car was spotless. A truly comfortable and stress-free journey. Highly recommend!"
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Customer Comment Card 2 -->
+                    <div class="review-card border-green-500">
+                        <!-- Avatar for Jane Smith -->
+                        <div class="review-avatar bg-green-200 text-green-800">
+                            JS
+                        </div>
+                        <div class="review-content">
+                            <p class="review-name text-green-700">- Jane Smith, Abuja</p>
+                            <!-- Star Rating for Jane Smith (5 stars) -->
+                            <div class="review-stars">
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            </div>
+                            <p class="review-text">
+                                "Booking was seamless, and my ride arrived exactly on time. Excellent service from start to finish. Couldn't ask for a better experience!"
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Customer Comment Card 3 -->
+                    <div class="review-card border-blue-500">
+                        <!-- Avatar for Emeka Obi -->
+                        <div class="review-avatar bg-blue-200 text-blue-800">
+                            EO
+                        </div>
+                        <div class="review-content">
+                            <p class="review-name text-blue-700">- Emeka Obi, Port Harcourt</p>
+                            <!-- Star Rating for Emeka Obi (5 stars) -->
+                            <div class="review-stars">
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            </div>
+                            <p class="review-text">
+                                "The app is incredibly easy to use, and finding a ride is always quick. My driver was very polite and knew the best routes. Five stars!"
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Customer Comment Card 4 -->
+                    <div class="review-card border-green-500">
+                        <!-- Avatar for Amina Yusuf -->
+                        <div class="review-avatar bg-green-200 text-green-800">
+                            AY
+                        </div>
+                        <div class="review-content">
+                            <p class="review-name text-green-700">- Amina Yusuf, Kano</p>
+                            <!-- Star Rating for Amina Yusuf (4 stars) -->
+                            <div class="review-stars">
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <!-- Empty star for 4-star rating -->
+                                <svg class="star-icon star-animated star-empty" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            </div>
+                            <p class="review-text">
+                                "Reliable, safe, and affordable. This ride service has become my go-to for all my travel needs. Always a pleasure!"
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Customer Comment Card 5 -->
+                    <div class="review-card border-blue-500">
+                        <!-- Avatar for Tunde Alabi -->
+                        <div class="review-avatar bg-blue-200 text-blue-800">
+                            TA
+                        </div>
+                        <div class="review-content">
+                            <p class="review-name text-blue-700">- Tunde Alabi, Ibadan</p>
+                            <!-- Star Rating for Tunde Alabi (5 stars) -->
+                            <div class="review-stars">
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            </div>
+                            <p class="review-text">
+                                "Absolutely brilliant! My driver navigated through traffic expertly, getting me to my destination well ahead of time. Professional and efficient."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Customer Comment Card 6 -->
+                    <div class="review-card border-green-500">
+                        <!-- Avatar for Fatima Bello -->
+                        <div class="review-avatar bg-green-200 text-green-800">
+                            FB
+                        </div>
+                        <div class="review-content">
+                            <p class="review-name text-green-700">- Fatima Bello, Kaduna</p>
+                            <!-- Star Rating for Fatima Bello (5 stars) -->
+                            <div class="review-stars">
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                                <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                            </div>
+                            <p class="review-text">
+                                "From booking to drop-off, every step was smooth. The driver was courteous, and the car was comfortable. A top-notch service I highly recommend!"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Driver Features Section - NEW -->
+            <section id="driver-features-section" class="driver-features-section">
+                <h2 class="driver-features-title">Become a Driver with Ride Now</h2>
+                <p class="driver-features-content">
+                    Join our network of professional drivers and enjoy flexible hours, competitive earnings, and a supportive community. Drive on your own terms and make a difference in your city!
                 </p>
-                <p>
-                    Our mission is to make transportation seamless and enjoyable for everyone in Nigeria. We are committed to providing:
+                <div class="driver-features-grid">
+                    <div class="driver-feature-card">
+                        <span class="driver-feature-icon">💰</span>
+                        <h3 class="driver-feature-title">Competitive Earnings</h3>
+                        <p class="driver-feature-text">Earn more with transparent fare structures and bonuses.</p>
+                    </div>
+                    <div class="driver-feature-card">
+                        <span class="driver-feature-icon">⏰</span>
+                        <h3 class="driver-feature-title">Flexible Hours</h3>
+                        <p class="driver-feature-text">Drive when it suits you, set your own schedule.</p>
+                    </div>
+                    <div class="driver-feature-card">
+                        <span class="driver-feature-icon">🤝</span>
+                        <h3 class="driver-feature-title">Community Support</h3>
+                        <p class="driver-feature-text">Join a growing community of professional drivers.</p>
+                    </div>
+                    <div class="driver-feature-card">
+                        <span class="driver-feature-icon">🛡️</span>
+                        <h3 class="driver-feature-title">Safety First</h3>
+                        <p class="driver-feature-text">We prioritize your safety with in-app features and support.</p>
+                    </div>
+                    <div class="driver-feature-card">
+                        <span class="driver-feature-icon">📈</span>
+                        <h3 class="driver-feature-title">Growth Opportunities</h3>
+                        <p class="driver-feature-text">Access training and opportunities to grow your business.</p>
+                    </div>
+                    <div class="driver-feature-card">
+                        <span class="driver-feature-icon">📲</span>
+                        <h3 class="driver-feature-title">Easy-to-Use App</h3>
+                        <p class="driver-feature-text">Manage rides, earnings, and support all in one place.</p>
+                    </div>
+                </div>
+                <p class="driver-features-content" style="margin-top: 2rem;">
+                    Ready to start earning? Check out our driver requirements and apply today!
                 </p>
-                <ul>
-                    <li>24/7 Customer Support</li>
-                    <li>Clean &amp; Comfortable Cars</li>
-                    <li>Transparent Pricing</li>
-                    <li>Easy Booking Process</li>
-                    <li>Experienced &amp; Vetted Drivers</li>
-                    <li>Coverage in Major Nigerian Cities</li>
-                    <li>Commitment to Safety &amp; Security</li>
-                    <li>Multiple Payment Options</li>
-                    <li>Regular Vehicle Maintenance</li>
-                </ul>
-                <p>
-                    Join thousands of happy riders who trust Ride Now every day!
-                </p>
-            </div>
-        </section>
-
-        <!-- Customer Reviews Section - Re-added -->
-        <section id="customer-reviews-section" class="reviews-section">
-            <h2 class="reviews-title">What Our Customers Say</h2>
-            <div class="reviews-grid">
-                <!-- Customer Comment Card 1 -->
-                <div class="review-card border-blue-500">
-                    <!-- Avatar for John Doe -->
-                    <div class="review-avatar bg-blue-200 text-blue-800">
-                        JD
-                    </div>
-                    <div class="review-content">
-                        <p class="review-name text-blue-700">- John Doe, Lagos</p>
-                        <!-- Star Rating for John Doe (5 stars) -->
-                        <div class="review-stars">
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                        </div>
-                        <p class="review-text">
-                            "Fantastic ride! The driver was friendly and punctual, and the car was spotless. A truly comfortable and stress-free journey. Highly recommend!"
-                        </p>
-                    </div>
+                <div class="text-center">
+                     <a href="driver.html" class="driver-apply-btn">Apply Now</a>
                 </div>
+            </section>
 
-                <!-- Customer Comment Card 2 -->
-                <div class="review-card border-green-500">
-                    <!-- Avatar for Jane Smith -->
-                    <div class="review-avatar bg-green-200 text-green-800">
-                        JS
-                    </div>
-                    <div class="review-content">
-                        <p class="review-name text-green-700">- Jane Smith, Abuja</p>
-                        <!-- Star Rating for Jane Smith (5 stars) -->
-                        <div class="review-stars">
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                        </div>
-                        <p class="review-text">
-                            "Booking was seamless, and my ride arrived exactly on time. Excellent service from start to finish. Couldn't ask for a better experience!"
-                        </p>
-                    </div>
-                </div>
 
-                <!-- Customer Comment Card 3 -->
-                <div class="review-card border-blue-500">
-                    <!-- Avatar for Emeka Obi -->
-                    <div class="review-avatar bg-blue-200 text-blue-800">
-                        EO
-                    </div>
-                    <div class="review-content">
-                        <p class="review-name text-blue-700">- Emeka Obi, Port Harcourt</p>
-                        <!-- Star Rating for Emeka Obi (5 stars) -->
-                        <div class="review-stars">
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                        </div>
-                        <p class="review-text">
-                            "The app is incredibly easy to use, and finding a ride is always quick. My driver was very polite and knew the best routes. Five stars!"
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Customer Comment Card 4 -->
-                <div class="review-card border-green-500">
-                    <!-- Avatar for Amina Yusuf -->
-                    <div class="review-avatar bg-green-200 text-green-800">
-                        AY
-                    </div>
-                    <div class="review-content">
-                        <p class="review-name text-green-700">- Amina Yusuf, Kano</p>
-                        <!-- Star Rating for Amina Yusuf (4 stars) -->
-                        <div class="review-stars">
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <!-- Empty star for 4-star rating -->
-                            <svg class="star-icon star-animated star-empty" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                        </div>
-                        <p class="review-text">
-                            "Reliable, safe, and affordable. This ride service has become my go-to for all my travel needs. Always a pleasure!"
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Customer Comment Card 5 -->
-                <div class="review-card border-blue-500">
-                    <!-- Avatar for Tunde Alabi -->
-                    <div class="review-avatar bg-blue-200 text-blue-800">
-                        TA
-                    </div>
-                    <div class="review-content">
-                        <p class="review-name text-blue-700">- Tunde Alabi, Ibadan</p>
-                        <!-- Star Rating for Tunde Alabi (5 stars) -->
-                        <div class="review-stars">
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                        </div>
-                        <p class="review-text">
-                            "Absolutely brilliant! My driver navigated through traffic expertly, getting me to my destination well ahead of time. Professional and efficient."
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Customer Comment Card 6 -->
-                <div class="review-card border-green-500">
-                    <!-- Avatar for Fatima Bello -->
-                    <div class="review-avatar bg-green-200 text-green-800">
-                        FB
-                    </div>
-                    <div class="review-content">
-                        <p class="review-name text-green-700">- Fatima Bello, Kaduna</p>
-                        <!-- Star Rating for Fatima Bello (5 stars) -->
-                        <div class="review-stars">
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <svg class="star-icon star-animated" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.071 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.793 2.03a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.793-2.03a1 1 0 00-1.176 0l-2.793 2.03c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.055 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                        </div>
-                        <p class="review-text">
-                            "From booking to drop-off, every step was smooth. The driver was courteous, and the car was comfortable. A top-notch service I highly recommend!"
-                        </p>
-                    </div>
+            <!-- Modal for Footer Info -->
+            <div id="footerInfoModal" class="footer-info-modal">
+                <div class="footer-info-modal-content">
+                    <span class="footer-info-modal-close" id="footerInfoModalClose">&times;</span>
+                    <div id="footerInfoModalBody"></div>
                 </div>
             </div>
-        </section>
-
-        <!-- Driver Features Section - NEW -->
-        <section id="driver-features-section" class="driver-features-section">
-            <h2 class="driver-features-title">Become a Driver with Ride Now</h2>
-            <p class="driver-features-content">
-                Join our network of professional drivers and enjoy flexible hours, competitive earnings, and a supportive community. Drive on your own terms and make a difference in your city!
-            </p>
-            <div class="driver-features-grid">
-                <div class="driver-feature-card">
-                    <span class="driver-feature-icon">💰</span>
-                    <h3 class="driver-feature-title">Competitive Earnings</h3>
-                    <p class="driver-feature-text">Earn more with transparent fare structures and bonuses.</p>
-                </div>
-                <div class="driver-feature-card">
-                    <span class="driver-feature-icon">⏰</span>
-                    <h3 class="driver-feature-title">Flexible Hours</h3>
-                    <p class="driver-feature-text">Drive when it suits you, set your own schedule.</p>
-                </div>
-                <div class="driver-feature-card">
-                    <span class="driver-feature-icon">🤝</span>
-                    <h3 class="driver-feature-title">Community Support</h3>
-                    <p class="driver-feature-text">Join a growing community of professional drivers.</p>
-                </div>
-                <div class="driver-feature-card">
-                    <span class="driver-feature-icon">🛡️</span>
-                    <h3 class="driver-feature-title">Safety First</h3>
-                    <p class="driver-feature-text">We prioritize your safety with in-app features and support.</p>
-                </div>
-                <div class="driver-feature-card">
-                    <span class="driver-feature-icon">📈</span>
-                    <h3 class="driver-feature-title">Growth Opportunities</h3>
-                    <p class="driver-feature-text">Access training and opportunities to grow your business.</p>
-                </div>
-                <div class="driver-feature-card">
-                    <span class="driver-feature-icon">📲</span>
-                    <h3 class="driver-feature-title">Easy-to-Use App</h3>
-                    <p class="driver-feature-text">Manage rides, earnings, and support all in one place.</p>
-                </div>
-            </div>
-            <p class="driver-features-content" style="margin-top: 2rem;">
-                Ready to start earning? Check out our driver requirements and apply today!
-            </p>
-            <div class="text-center">
-                 <a href="driver.html" class="driver-apply-btn">Apply Now</a>
-            </div>
-        </section>
-
-
-        <!-- Modal for Footer Info -->
-        <div id="footerInfoModal" class="footer-info-modal">
-            <div class="footer-info-modal-content">
-                <span class="footer-info-modal-close" id="footerInfoModalClose">&times;</span>
-                <div id="footerInfoModalBody"></div>
-            </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <footer class="site-footer">
         <div class="footer-container">
@@ -1443,10 +1677,10 @@
             <div class="footer-links">
                 <h4>Quick Links</h4>
                 <ul>
-                    <li><a href="#dashboard-section">Dashboard</a></li>
+                    <li><a href="#book-ride-section">Book a Ride</a></li>
                     <li><a href="#services-section-main">Services</a></li>
                     <li><a href="#about-section-main">About Us</a></li>
-                    <li><a href="#driver-features-section">For drivers</a></li> <!-- Updated href -->
+                    <li><a href="#driver-features-section">For drivers</a></li>
                     <li><a href="#" class="footer-info-link" data-info="faq">FAQs</a></li>
                     <li><a href="#" class="footer-info-link" data-info="terms">Terms &amp; Conditions</a></li>
                     <li><a href="#" class="footer-info-link" data-info="privacy">Privacy Policy</a></li>
@@ -1459,6 +1693,199 @@
     </footer>
 
     <script>
+        // Use a consistent localStorage key for user data
+        const USER_STORAGE_KEY = 'loggedInAppUser'; // Stores an object with {email, name, password, type: 'user'}
+
+        // Helper to show messages
+        function showMessage(element, message, type) {
+            element.textContent = message;
+            element.className = type === 'success' ? 'success' : 'error';
+            element.style.display = 'block';
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 3000);
+        }
+
+        // Retrieve user from localStorage
+        function getStoredUser() {
+            const userData = localStorage.getItem(USER_STORAGE_KEY);
+            return userData ? JSON.parse(userData) : null;
+        }
+
+        // Store user in localStorage
+        function saveUser(user) {
+            localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
+        }
+
+        // DOM elements for main sections
+        const loginSection = document.getElementById('loginSection');
+        const signupSection = document.getElementById('signupSection');
+        const mainDashboardContent = document.getElementById('mainDashboardContent');
+
+        // Function to show a specific section and hide others
+        function showSection(sectionToShow) {
+            loginSection.style.display = 'none';
+            signupSection.style.display = 'none';
+            mainDashboardContent.style.display = 'none';
+
+            if (sectionToShow === 'login') {
+                loginSection.style.display = 'block';
+            } else if (sectionToShow === 'signup') {
+                signupSection.style.display = 'block';
+            } else if (sectionToShow === 'dashboard') {
+                mainDashboardContent.style.display = 'block';
+                // Reset scroll to top when showing dashboard
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            // Close dropdown menu if open
+            const navbarDropdown = document.getElementById('navbarDropdown');
+            const hamburgerMenu = document.getElementById('hamburgerMenu');
+            if (navbarDropdown && hamburgerMenu) {
+                navbarDropdown.classList.remove('show');
+                hamburgerMenu.classList.remove('open');
+            }
+        }
+
+        // Initial check on page load: show dashboard if logged in, otherwise show login
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = getStoredUser();
+            if (user && user.type === 'user') {
+                showSection('dashboard');
+            } else {
+                showSection('login');
+            }
+            // Initialize the first step of the booking form if dashboard is shown
+            if (mainDashboardContent.style.display === 'block') {
+                updateStep();
+            }
+        });
+
+        // Navbar Login/Signup buttons
+        document.getElementById('loginBtn').addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent any default button behavior (though not strictly needed now)
+            showSection('login');
+        });
+
+        document.getElementById('signupBtn').addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent any default button behavior
+            showSection('signup');
+        });
+
+        // Dropdown menu Login/Signup buttons (for mobile)
+        document.getElementById('dropdownLoginBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            showSection('login');
+        });
+
+        document.getElementById('dropdownSignupBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            showSection('signup');
+        });
+
+
+        // Login logic
+        document.getElementById('loginForm').onsubmit = function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const msg = document.getElementById('loginMessage');
+
+            if (!email || !password) {
+                showMessage(msg, "Please fill in both email and password.", 'error');
+                return;
+            }
+
+            const storedUser = getStoredUser();
+
+            if (storedUser && storedUser.email === email && storedUser.password === password && storedUser.type === 'user') {
+                showMessage(msg, "Login successful! Redirecting to dashboard...", 'success');
+                setTimeout(() => {
+                    showSection('dashboard'); // Show dashboard content
+                    updateStep(); // Re-initialize booking steps if needed
+                }, 500);
+            } else {
+                showMessage(msg, "Invalid email or password, or account not found.", 'error');
+            }
+        };
+
+        // Forgot Password modal logic
+        const forgotModal = document.getElementById('forgotPasswordModal');
+        const closeForgotModal = document.getElementById('closeForgotModal');
+        const forgotForm = document.getElementById('forgotForm');
+        const forgotMsg = document.getElementById('forgotMsg');
+
+        document.getElementById('forgotPasswordLink').onclick = function(e) {
+            e.preventDefault();
+            forgotModal.style.display = "flex";
+            forgotMsg.style.display = "none";
+            forgotForm.reset();
+        };
+        closeForgotModal.onclick = function() {
+            forgotModal.style.display = "none";
+        };
+        window.onclick = function(e) {
+            if (e.target === forgotModal) forgotModal.style.display = "none";
+        };
+        forgotForm.onsubmit = function(e) {
+            e.preventDefault();
+            const email = document.getElementById('forgotEmail').value.trim();
+            showMessage(forgotMsg, "A password reset link has been sent to " + email + ".", 'success');
+        };
+
+        // Show signup form from login section
+        document.getElementById('showSignupLink').onclick = function(e) {
+            e.preventDefault();
+            showSection('signup');
+            document.getElementById('loginMessage').style.display = "none"; // Clear login message
+        };
+
+        // Show login form from signup section
+        document.getElementById('showLoginLink').onclick = function(e) {
+            e.preventDefault();
+            showSection('login');
+            document.getElementById('signupMessage').style.display = "none"; // Clear signup message
+        };
+
+        // Signup logic
+        document.getElementById('signupForm').onsubmit = function(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const phone = document.getElementById('signupPhone').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            const msg = document.getElementById('signupMessage');
+
+            if (!name || !email || !phone || !password || !confirmPassword) {
+                showMessage(msg, "Please fill in all fields.", 'error');
+                return;
+            }
+            if (password.length < 6) {
+                showMessage(msg, "Password must be at least 6 characters.", 'error');
+                return;
+            }
+            if (password !== confirmPassword) {
+                showMessage(msg, "Passwords do not match.", 'error');
+                return;
+            }
+
+            const existingUser = getStoredUser();
+            if (existingUser && existingUser.email === email && existingUser.type === 'user') {
+                showMessage(msg, "An account with this email already exists. Please login.", 'error');
+                return;
+            }
+
+            const newUser = { name, email, phone, password, type: 'user' };
+            saveUser(newUser);
+
+            showMessage(msg, "Signup successful! Logging you in...", 'success');
+            setTimeout(() => {
+                showSection('dashboard'); // Show dashboard content
+                updateStep(); // Re-initialize booking steps if needed
+            }, 500);
+        };
+
+
         // Booking steps with input fields
         const steps = [
             {
@@ -1798,15 +2225,25 @@
         }
 
         // Initialize the first step
-        updateStep();
+        // This is called on DOMContentLoaded after the initial section display logic
+        // updateStep(); // Removed this from global scope, called conditionally in DOMContentLoaded
     </script>
 
     <script>
+// Hamburger menu logic
 const hamburgerMenu = document.getElementById('hamburgerMenu');
 const navbarDropdown = document.getElementById('navbarDropdown');
 hamburgerMenu.addEventListener('click', () => {
     navbarDropdown.classList.toggle('show');
     hamburgerMenu.classList.toggle('open');
+});
+
+// Close dropdown if clicking outside
+window.addEventListener('click', (event) => {
+    if (!navbarDropdown.contains(event.target) && !hamburgerMenu.contains(event.target)) {
+        navbarDropdown.classList.remove('show');
+        hamburgerMenu.classList.remove('open');
+    }
 });
 </script>
 
@@ -1900,21 +2337,6 @@ document.querySelectorAll('.footer-info-link').forEach(link => {
 });
 modalClose.onclick = () => { modal.style.display = 'none'; };
 window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
-</script>
-
-<script>
-// Prevent navigation for login/signup buttons and log a message instead
-document.getElementById('loginBtn').addEventListener('click', function(e) {
-    e.preventDefault(); // Prevent default navigation
-    console.log("Login button clicked. (Navigation to login.html prevented as it's not part of this single HTML file)");
-    // In a full application, you would show a login modal or navigate to a proper login page.
-});
-
-document.getElementById('signupBtn').addEventListener('click', function(e) {
-    e.preventDefault(); // Prevent default navigation
-    console.log("Signup button clicked. (Navigation to login.html prevented as it's not part of this single HTML file)");
-    // In a full application, you would show a signup modal or navigate to a proper signup page.
-});
 </script>
 </body>
 </html>
