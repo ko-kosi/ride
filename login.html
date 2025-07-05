@@ -300,10 +300,10 @@
                 // Use setTimeout to allow message to show before redirecting
                 setTimeout(() => {
                     try {
-                        window.location.assign('dashboard.html');
+                        window.location.assign('hi3.html');
                     } catch (e) {
-                        console.error("Failed to redirect to dashboard.html after login:", e);
-                        alert("Login successful, but could not redirect to dashboard. Please open 'dashboard.html' manually. (Error: " + e.message + ")");
+                        console.error("Failed to redirect to hi3.html after login:", e);
+                        alert("Login successful, but could not redirect to hi3.html. Please open 'hi3.html' manually. (Error: " + e.message + ")");
                     }
                 }, 500); // Short delay
             } else {
@@ -391,10 +391,10 @@
             // Use setTimeout to allow message to show before redirecting
             setTimeout(() => {
                 try {
-                    window.location.assign('dashboard.html');
+                    window.location.assign('hi3.html');
                 } catch (e) {
-                    console.error("Failed to redirect to dashboard.html after signup:", e);
-                    alert("Signup successful, but could not redirect to dashboard. Please open 'dashboard.html' manually. (Error: " + e.message + ")");
+                    console.error("Failed to redirect to hi3.html after signup:", e);
+                    alert("Signup successful, but could not redirect to hi3.html. Please open 'hi3.html' manually. (Error: " + e.message + ")");
                 }
             }, 500); // Short delay
         };
